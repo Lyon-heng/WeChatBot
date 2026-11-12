@@ -162,8 +162,8 @@
       "essential": false,
       "source": "optional-extensions/moments-native",
       "file": "moments-native-2.0.0.zip",
-      "bytes": 338483,
-      "sha256": "c6ac54c01e982873d760947341011db946fdc0d3fd005f97a336c917d02eef9f",
+      "bytes": 330651,
+      "sha256": "26ea1506c57e03fb43725a67b651c435cf73f13a28054a195e713ec139b85fe1",
       "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.0.0/moments-native-2.0.0.zip"
     },
     {
@@ -399,8 +399,8 @@
   },
   "all": {
     "file": "WeChatBot-plugins-all-1.0.0.zip",
-    "bytes": 824914,
-    "sha256": "b5d25cb573ff7a0c60a56465702a327ab5890088739135d174dafb3b21f5122e",
+    "bytes": 817005,
+    "sha256": "10fa408753cac248eda5f929142c5687a8c81e09eac416f0c727d2296edc61d1",
     "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.0.0/WeChatBot-plugins-all-1.0.0.zip"
   }
 }

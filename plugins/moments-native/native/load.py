@@ -17,6 +17,7 @@ import json
 import os
 import secrets
 import sys
+import tempfile
 import time
 import urllib.request
 from ctypes import wintypes
@@ -28,7 +29,7 @@ k32.OpenProcess.restype = wintypes.HANDLE
 k32.CloseHandle.argtypes = [wintypes.HANDLE]
 
 HERE = Path(__file__).resolve().parent
-CONFIG = Path(os.environ.get("TEMP", r"C:\Users\Administrator\AppData\Local\Temp")) / "wb-moments-token.txt"
+CONFIG = Path(os.environ.get("TEMP") or tempfile.gettempdir()) / "wb-moments-token.txt"
 
 
 def core_pids():

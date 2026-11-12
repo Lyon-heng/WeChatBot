@@ -33,11 +33,22 @@
 #define BUILD_TAG           "r7"
 #define ENDPOINT            "/cgi-bin/micromsg-bin/mmsnspost"
 #define CGI_ID              209
+/* 运行期解析系统临时目录，不把任何机器上的用户路径写进源码 */
+static const wchar_t *temp_file(const wchar_t *name) {
+    static wchar_t paths[4][MAX_PATH + 64];
+    static int slot;
+    wchar_t dir[MAX_PATH];
+    if (!GetTempPathW(MAX_PATH, dir)) return name;
+    slot = (slot + 1) % 4;
+    _snwprintf_s(paths[slot], MAX_PATH + 64, _TRUNCATE, L"%s%s", dir, name);
+    return paths[slot];
+}
+
 #define PORT_BASE           32000
 #define PORT_SPAN           10
-#define PORT_FILE           L"C:\\Users\\Administrator\\AppData\\Local\\Temp\\wb-moments-port.txt"
-#define CONFIG_FILE         L"C:\\Users\\Administrator\\AppData\\Local\\Temp\\wb-moments-token.txt"
-#define SELFTEST_FILE       L"C:\\Users\\Administrator\\AppData\\Local\\Temp\\wb-moments-selftest.json"
+#define PORT_FILE           temp_file(L"wb-moments-port.txt")
+#define CONFIG_FILE         temp_file(L"wb-moments-token.txt")
+#define SELFTEST_FILE       temp_file(L"wb-moments-selftest.json")
 
 static char g_expect[160];    /* 期望 wxid（加载器写下的第三行），空=不校验 */
 static int mem_ok(const void *p, size_t n);
