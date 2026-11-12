@@ -54,12 +54,11 @@ Copy-Tree $baselineApp (Join-Path $stage 'app') @(
 $project=Join-Path $resources 'project'
 New-Item -ItemType Directory -Path $project -Force|Out-Null
 $pluginCatalog=Get-Content -LiteralPath (Join-Path $repo 'packages/plugin-distribution/catalog.json') -Raw|ConvertFrom-Json
-$corePluginSources=@($pluginCatalog.entries|Where-Object {$_.essential}|ForEach-Object {$_.source+'/'})
-$corePluginArchives=@($pluginCatalog.entries|Where-Object {$_.essential}|ForEach-Object {'optional-extensions/packages/'+$_.file;'optional-extensions/packages/'+$_.file+'.sha256'})
 $sourceFiles=@(& git -C $repo -c core.quotepath=false ls-files --cached --others --exclude-standard)
 if($LASTEXITCODE -ne 0){throw 'Could not enumerate source files.'}
 foreach($relative in $sourceFiles){
- if($relative.StartsWith('optional-extensions/') -and $relative -ne 'optional-extensions/README.md' -and $relative -notin @('optional-extensions/group-behavior/lib/policy.mjs','optional-extensions/speech-recognition/lib/diagnostics.mjs','optional-extensions/speech-recognition/lib/recognize.mjs','optional-extensions/speech-recognition/assets/config-test.wav','optional-extensions/speech-recognition/LICENSE','optional-extensions/speech-recognition/UPSTREAM.json') -and $relative -notin $corePluginArchives){$isCorePlugin=$false;foreach($prefix in $corePluginSources){if($relative.StartsWith($prefix)){$isCorePlugin=$true;break}};if(-not $isCorePlugin){continue}}
+ # Plugin sources and bundled archives under optional-extensions/ ship as authored.
+
  if($relative -match '^scripts/test-'){continue}
  if($relative -eq 'deployment.json' -or $relative -match '(^|/)(?:\.git|state|node_modules|__pycache__)(/|$)|\.tmp$|^\.github/'){continue}
  if($relative -match '^config/' -and $relative -ne 'config/wechatagent.example.json'){throw 'Private config in source set.'}
