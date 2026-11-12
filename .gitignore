@@ -27,7 +27,15 @@ dist/
 build/
 
 # Personal personas and installed plugin state
-plugins/
+# Only the built-in plugins shipped with the app are tracked; anything else under
+# plugins/ is local user state and must never be committed.
+plugins/*
+!plugins/moments-native/
+!plugins/muse-video/
+!plugins/voice-studio/
+!plugins/workbuddy-memes/
+!plugins/moments-native/native/bin/*.exe
+!plugins/moments-native/native/bin/*.dll
 !docs/plugins/
 !docs/plugins/**
 roles/*.md

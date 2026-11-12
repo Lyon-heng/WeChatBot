@@ -63,7 +63,7 @@ $desktopVersion = (Get-Content -LiteralPath (Join-Path $payload 'app/resources/a
 if ($manifest.version -ne $Version -or $manifest.packageVersion -ne $Version -or $desktopVersion -ne $Version) { throw 'Payload versions do not match the requested release.' }
 foreach ($file in $files) {
   $relative = $file.FullName.Substring($payload.Length + 1).Replace('\','/')
-  if ($relative -match '(?:^|/)(?:\.env|storage\.ini|plugins\.json|distribution\.json)$|\.(?:token|log|db|sqlite|pem|key|pfx|tmp)$|^app/resources/project/(?:state|plugins)/|^app/resources/project/config/(?!wechatagent\.example\.json$)') {
+  if ($relative -match '(?:^|/)(?:\.env|storage\.ini|plugins\.json|distribution\.json)$|\.(?:token|log|db|sqlite|pem|key|pfx|tmp)$|^app/resources/project/state/|^app/resources/project/plugins/(?!(?:moments-native|muse-video|voice-studio|workbuddy-memes)/)|^app/resources/project/config/(?!wechatagent\.example\.json$)') {
     throw "Private or temporary file in payload: $relative"
   }
 }

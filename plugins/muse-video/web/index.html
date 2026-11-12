@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Muse 视频工作台</title>
+<link rel="stylesheet" href="/style.css">
+<script src="/app.js" defer></script>
+</head>
+<body>
+<div class="shell">
+  <header class="top">
+    <div class="brand">
+      <div class="mark"></div>
+      <div>
+        <h1>Muse 视频工作台</h1>
+        <p>用你自己的 muse.ai 账号生成视频与图片，完成后自动发到微信</p>
+      </div>
+    </div>
+    <button id="refresh" class="ghost" type="button">刷新状态</button>
+  </header>
+
+  <section id="statusBar" class="statusbar" aria-live="polite"></section>
+  <section id="gatewayBar" class="gatewaybar">
+    <span class="gwlabel">muse2api 服务</span>
+    <span id="gatewayState" class="gwstate">检测中…</span>
+    <button id="gwStart" class="ghost" type="button">启动服务</button>
+    <button id="gwStop" class="ghost danger" type="button">停止服务</button>
+    <button id="gwAdmin" class="ghost" type="button" title="自动带上已保存的 API Key，网关未运行会先启动">打开管理页</button>
+    <span id="gatewayHint" class="hint"></span>
+  </section>
+  <section id="notice" class="notice" hidden></section>
+
+  <main class="grid">
+    <div class="col">
+    <section class="card">
+      <h2>新建视频</h2>
+      <form id="form">
+        <label for="prompt">画面描述</label>
+        <textarea id="prompt" rows="5" maxlength="2000" placeholder="例如：清晨的海边灯塔，海浪拍打礁石，镜头缓慢推进，电影感光影" required></textarea>
+        <p class="hint">把画面、运镜、氛围写成一句话即可；Muse 自带配乐与音效。</p>
+
+        <div class="row">
+          <div class="field">
+            <label for="duration">时长（秒）</label>
+            <select id="duration">
+              <option value="5">5 秒</option>
+              <option value="8">8 秒</option>
+              <option value="10" selected>10 秒</option>
+              <option value="15">15 秒</option>
+              <option value="20">20 秒</option>
+            </select>
+            <p class="hint">实际成片以 Muse 输出为准，通常约 10 秒。</p>
+          </div>
+          <div class="field">
+            <label for="aspect">画幅</label>
+            <select id="aspect">
+              <option value="landscape" selected>横屏 16:9</option>
+              <option value="portrait">竖屏 9:16</option>
+            </select>
+            <p class="hint">发到微信聊天推荐竖屏或方形观看体验更好。</p>
+          </div>
+        </div>
+
+        <label for="chat">发送到</label>
+        <select id="chat"></select>
+        <p id="chatHint" class="hint"></p>
+
+        <label class="check">
+          <input id="autoSend" type="checkbox" checked>
+          <span>生成完成后自动把 mp4 发到这个微信会话</span>
+        </label>
+
+        <button id="submit" class="primary" type="submit">开始生成</button>
+        <p id="formHint" class="hint"></p>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>生成图片</h2>
+      <form id="formImg">
+        <label for="promptImg">画面描述</label>
+        <textarea id="promptImg" rows="4" maxlength="2000" placeholder="例如：一只戴围巾的橘猫坐在窗台上看雪，柔和暖光，插画风格" required></textarea>
+        <p class="hint">同样走 muse.ai 账号额度；生成一张静态图片，通常几十秒到两分钟。</p>
+
+        <div class="field">
+          <label for="aspectImg">画幅</label>
+          <select id="aspectImg">
+            <option value="1:1" selected>正方形 1:1</option>
+            <option value="16:9">横屏 16:9</option>
+            <option value="9:16">竖屏 9:16</option>
+            <option value="4:3">横版 4:3</option>
+            <option value="3:4">竖版 3:4</option>
+          </select>
+          <p class="hint">发到微信聊天推荐 1:1 或 3:4。</p>
+        </div>
+
+        <label for="chatImg">发送到</label>
+        <select id="chatImg"></select>
+        <p id="chatImgHint" class="hint"></p>
+
+        <label class="check">
+          <input id="autoSendImg" type="checkbox" checked>
+          <span>生成完成后自动把图片发到这个微信会话</span>
+        </label>
+
+        <button id="submitImg" class="primary" type="submit">开始生成图片</button>
+        <p id="formImgHint" class="hint"></p>
+      </form>
+    </section>
+    </div>
+
+    <section class="card">
+      <div class="cardhead">
+        <h2>任务列表</h2>
+        <span id="taskCount" class="counter"></span>
+      </div>
+      <div id="tasks" class="tasks"><p class="empty">还没有任务，先在左边写一句画面描述。</p></div>
+      <p class="footnote">服务会在后台持续轮询，关掉这个网页也会继续生成并投递。视频、图片与任务记录保留 7 天。</p>
+    </section>
+  </main>
+</div>
+</body>
+</html>

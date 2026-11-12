@@ -1,0 +1,148 @@
+{
+  "id": "voice-studio",
+  "name": "肥鱼声音工作室",
+  "version": "1.4.1",
+  "apiVersion": 2,
+  "host": "wechatagent",
+  "author": "WeChatBot",
+  "description": "申请微信语音气泡与歌曲制作，支持自定义和随机音色、部分句子随机改发语音、伴奏分离及成品复用。默认调用本地部署，需准备模型与发送组件；语音音色页可选本地兼容 GGUF 模型或外接语音 API。",
+  "permissions": [
+    "storage",
+    "voice"
+  ],
+  "requiresHostFeatures": [
+    "native-voice-v1",
+    "netease-song-link-v1",
+    "saved-songs-v1",
+    "random-voice-replacement-v1",
+    "local-voice-model-v1",
+    "multipart-song-v1"
+  ],
+  "requiresAccount": true,
+  "settings": {
+    "defaultStyle": "cute",
+    "autoVoice": false,
+    "breezePort": 19881,
+    "feiyuTimbre": true,
+    "cutePitch": 3,
+    "onlineSongs": true,
+    "randomVoice": true,
+    "randomVoiceChance": 25,
+    "randomVoiceCooldownSeconds": 90,
+    "voiceSendIntervalSeconds": 2,
+    "voicePerMinute": 6,
+    "voicePerTenMinutes": 30,
+    "singingClarity": true,
+    "backingVolume": 0.4,
+    "localModelPath": "",
+    "songPlaybackMode": "preview",
+    "singingVoice": "feiyu"
+  },
+  "configSchema": {
+    "defaultStyle": {
+      "type": "string",
+      "title": "默认音色（每个聊天也能单独切换）",
+      "enum": [
+        "cute",
+        "natural",
+        "gentle"
+      ]
+    },
+    "autoVoice": {
+      "type": "boolean",
+      "title": "全部短回复附带语音（随机替换关闭时使用）"
+    },
+    "onlineSongs": {
+      "type": "boolean",
+      "title": "点歌时自动查找公开可播放版本并分离伴奏"
+    },
+    "breezePort": {
+      "type": "integer",
+      "title": "语音服务连接（保持默认即可）",
+      "minimum": 1024,
+      "maximum": 65534
+    },
+    "feiyuTimbre": {
+      "type": "boolean",
+      "title": "说话使用肥鱼换声（生成更慢）",
+      "description": "保留肥鱼音色需要额外变声；制作状态会显示合成和变声阶段。关闭会改用轻量合成，音色也会改变。"
+    },
+    "cutePitch": {
+      "type": "integer",
+      "title": "说话的可爱音调（0–5，越大越明亮）",
+      "minimum": 0,
+      "maximum": 5
+    },
+    "randomVoice": {
+      "type": "boolean",
+      "title": "随机用语音替换部分回复句子",
+      "description": "每轮最多替换一句，制作失败时补发原句文字；不会重复发送同一句文字。"
+    },
+    "randomVoiceChance": {
+      "type": "integer",
+      "title": "随机语音概率（%）",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "randomVoiceCooldownSeconds": {
+      "type": "integer",
+      "title": "同一聊天随机语音最短间隔（秒）",
+      "minimum": 10,
+      "maximum": 3600
+    },
+    "voiceSendIntervalSeconds": {
+      "type": "integer",
+      "title": "语音之间最短发送间隔（秒）",
+      "minimum": 0,
+      "maximum": 30
+    },
+    "voicePerMinute": {
+      "type": "integer",
+      "title": "每聊天每分钟最多语音条数",
+      "minimum": 1,
+      "maximum": 30
+    },
+    "voicePerTenMinutes": {
+      "type": "integer",
+      "title": "每聊天十分钟最多语音条数",
+      "minimum": 1,
+      "maximum": 120
+    },
+    "singingClarity": {
+      "type": "boolean",
+      "title": "清晰人声混音",
+      "description": "减轻低频浑浊、突出咬字并降低伴奏遮盖；保留肥鱼音色。更改后会制作新的歌曲成品，旧版本保留。"
+    },
+    "backingVolume": {
+      "type": "number",
+      "title": "唱歌伴奏音量（0–1）",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "localModelPath": {
+      "type": "string",
+      "title": "本地 Breeze 模型文件",
+      "default": "",
+      "maxLength": 500,
+      "description": "填写本机 Breeze TTS 2 兼容的 GGUF 绝对路径；留空使用内置位置。保存后重启语音服务生效，其他架构的模型不能直接加载。"
+    },
+    "songPlaybackMode": {
+      "type": "string",
+      "title": "歌曲发送模式",
+      "enum": [
+        "preview",
+        "full"
+      ],
+      "description": "旧插件配置的备用默认值。音乐页“保存为默认方式”优先；普通点歌沿用保存值。本次明确要求1分钟或完整歌曲时临时覆盖。片段先截取最多60秒再分离和换声，发送一条并标明；完整模式处理整首，按顺序发送最长55秒一段，当前上限10分钟。"
+    },
+    "singingVoice": {
+      "type": "string",
+      "title": "唱歌音色",
+      "enum": [
+        "feiyu",
+        "rabbit"
+      ],
+      "description": "肥鱼使用本机 FeiyuVoice 换声模型；兔娘需要先安装兔娘的 RVC 模型包（models/Rabbit-RVC）。缺失模型的音色不能用于翻唱，也不会用其它音色顶替。"
+    }
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "schema": 1,
+  "wechatVersion": "4.1.10.27",
+  "coreSha256": "f487e4f56930456a25fb0d7b058c77e2dcd364e268d49bdfff4dc0e3be26ba36",
+  "imageSize": "0xaf0e000",
+  "imageBase": "0x180000000",
+  "image": "Weixin.dll",
+  "status": "verified-accepted",
+  "method": "xiaoyu/moments-native 的同类结构：自建 SNS CGI 任务对象 → 客户端解析报文 → 交给网络管理器派发",
+  "ready": false,
+  "found": {
+    "POST_VTABLE": {
+      "rva": "0x8b5d768",
+      "slots": [
+        "0x4eb3f80",
+        "0x4eb3e50",
+        "0x4eb3f40",
+        "0x103f30",
+        "0x3993a90",
+        "1"
+      ],
+      "evidence": "6 项虚表，slot5=1；紧跟 .rdata 里 /cgi-bin/micromsg-bin/mmsnspost 与 SnsObject 字面量"
+    },
+    "POST_CTOR": {
+      "rva": "0x4eb3c50",
+      "evidence": "write [rcx]=0x8b5d768（0x4eb3cec lea rax,[rip+0x3ca9a75]）；随后 rcx+0xf0 调 0x4da2bb0 造请求消息、rcx+0x290 调 0x4da2cd0 造回执持有对象；从 info 复制 cmdId([rsi+0x10]→[rcx+0xc])、endpoint 字符串([rsi+0x18]→[rcx+0x18])、[rsi+0x38]→[rcx+0x3b]"
+    },
+    "POST_INFO": {
+      "rva": "0x8b5d2f0",
+      "bytes": "d1000000000000000000000001000000",
+      "evidence": "工厂 0x4eb3945 movaps xmm0,[rip+0x3ca99a4] 取 16 字节模板，紧接 mov dword [rbp-0x40],0xd1 写 cmdId 209——与 4.2.0.12 的模板逐字节同形"
+    },
+    "ALLOCATE": {
+      "rva": "0x680d0fc",
+      "evidence": "工厂 0x4eb39ed mov ecx,0x2b8; call 0x680d0fc（MSVC operator new）"
+    },
+    "FREE": {
+      "rva": "0x680d140",
+      "evidence": "工厂收尾 call 0x680d140；析构路径同"
+    },
+    "TASK_SIZE": {
+      "value": "0x2b8"
+    },
+    "REQ_OFFSET": {
+      "value": "0xf0",
+      "evidence": "虚表 slot3 = 0x103f30 = 48 8d 81 f0 00 00 00 c3（lea rax,[rcx+0xf0]; ret）"
+    },
+    "RES_OFFSET": {
+      "value": "0x290",
+      "evidence": "虚表 slot4 = 0x3993a90 = 48 8d 81 90 02 00 00 c3（lea rax,[rcx+0x290]; ret）"
+    },
+    "MESSAGE_CTOR": {
+      "rva": "0x4da2bb0",
+      "evidence": "任务构造在 +0xf0 调用它；write [rcx]=0x8b3df78"
+    },
+    "MESSAGE_VTABLE": {
+      "rva": "0x8b3df78",
+      "evidence": "紧随其后是 protobuf 描述字符串 micromsg.SnsPostRequest"
+    },
+    "HOLDER_CTOR": {
+      "rva": "0x4da2cd0",
+      "evidence": "任务构造在 +0x290 调用它；write [rcx]=0x8b3dff8，对象 0x28 字节，+0x18 指向空串单例"
+    },
+    "FACTORY": {
+      "rva": "0x4eb3910",
+      "evidence": "mov ecx,0x2b8 → allocate → 0x4eb3c50 → call [vtable+0x18] → 0x4dbf670(拷贝报文) → call [manager_vtable+0x28] 派发"
+    },
+    "SEND_WRAPPER": {
+      "rva": "0x4eb34d0",
+      "evidence": "唯一调用 0x4eb3910 的函数；参数结构 P：+0 管理器、+8 报文、+0x10 endpoint std::string、+0x30 info"
+    },
+    "PROTO_FILL": {
+      "rva": "0x5d9f00",
+      "signature": "rcx=报文对象, rdx=std::string*（+0 指针 / +0x10 长度 / +0x18 容量）",
+      "evidence": "`MessageLite::ParseFromString`：从 std::string 取数据建解析上下文（[rbp-0x58..]），再 call [rax+0x18] 清空、call [rax+0x38] 解析。用 4.2.0.12 的同名函数（0x6a8580，形态逐条一致）做交叉确认；4.1.10.27 里用 `cmp qword ptr [rdx+0x18],0x10`（std::string 容量判断）+ 两个虚调用 0x18/0x38 定位，唯一命中"
+    },
+    "ROOT_GLOBAL": {
+      "rva": "0xa83ab20",
+      "evidence": "运行时只读扫描 .data 指针 + 三段校验命中（root[0]==0x81b1c18、[root+0x2c8] 可读且首字为 0x82214f8、其 slot5==0x304f80）"
+    },
+    "ROOT_VTABLE": {
+      "rva": "0x81b1c18"
+    },
+    "MANAGER_VTABLE": {
+      "rva": "0x82214f8",
+      "evidence": "slot5=0x304f80；该函数读 task+0xc（cmdId）/ +0x10 / +0x18 的 std::string / +0xec，与本任务对象布局吻合"
+    },
+    "MANAGER_DISPATCH": {
+      "rva": "0x304f80",
+      "evidence": "manager vtable[5]，工厂 0x4eb3910 末尾 call [rax+0x28] 即调用它"
+    },
+    "COMPLETION_FN": {
+      "object": "task+0x98",
+      "impl": "task+0xd0",
+      "evidence": "工厂 0x4eb3910 在派发前把调用方的 std::function 拷进任务：`lea r14,[r12+0x98]`、`mov rcx,[r12+0xd0]`。构造时这两个位置被清零——网络层回来会无条件调用它，不装就是空指针调用"
+    },
+    "HOLDER_DATA": {
+      "rva": "0x5da7a0",
+      "evidence": "响应回调 0x4eb3f40 里 `mov rcx,rsi; xor edx,edx; call` 取数据指针"
+    },
+    "HOLDER_SIZE": {
+      "rva": "0x5da7d0",
+      "evidence": "同一函数先 `call` 取长度到 eax，再当 r8d 传给 0x5d9fe0 拷贝"
+    },
+    "RESPONSE_SLOT": {
+      "value": "vtable[2]",
+      "handler": "0x4eb3f40",
+      "evidence": "(task, holder)：先调 holder.size/data，再 0x5d9fe0 拷进 task+0x290；返回 true"
+    }
+  },
+  "missing": {},
+  "next": [
+    "在 4.2.0.12 对照核里已验证同构：POST_INFO 同样以 0xd1 开头、任务同样 +0xa8/+0x248 一对访问器（本地为 +0xf0/+0x290），说明这套结构是稳定的",
+    "补 ROOT_GLOBAL 的可行路径：0x4eb34d0 的调用者 0x4eb3440 往上追发布链，或在 0x1725c05 等 33 处 mov rcx,[rax+0x2c8] 里按运行时 root[0]==vtable 验证",
+    "补 PROTO_FILL 的可行路径：消息虚表 0x8b3df78 slot3/7（0x4dbb5e0 / 0x4dbb4c50 区）为 protobuf 解析/序列化，配合回执持有对象 0x8b3dff8 做 ParseFrom(holder) 往返测试（解析后再序列化应与原字节一致），全程不投递、不联网"
+  ],
+  "safety": "组件只接受 exact_build（ImageSize + 18 处字节指纹）与账号目录核验；常量不齐时拒绝加载，不会误发",
+  "foundCount": 9,
+  "verifiedAt": "2026-11-10T14:50+08:00",
+  "runtime": {
+    "build": true,
+    "manager": true,
+    "parseOnly": 8,
+    "submit": 1,
+    "clientAlive": true,
+    "receipt": "2026-11-11 19:41 与 21:00 两次拿到 ret=0 + objectId（15052494442863735369 / 15052526786559095403）",
+    "guard": {
+      "verified": true,
+      "how": "加载器写期望 wxid 到配置第 3 行；故意传错号时 /probe 显示 match=false，/submit 返回 403 account-mismatch"
+    },
+    "note": "传输链路、回执、账号护栏均验证通过。21:15 之后连续三次投递只拿到完成回调、没有回执（onresp=0，任务 ~24 秒后 completed/destroyed）——与账号被限流/请求超时的表现一致，不是代码回归：同一构建在 21:00 之前能正常返回 ret=0。"
+  },
+  "crashFix": {
+    "symptom": "投递成功但微信随后闪退",
+    "cause": "task+0xd0 的 std::function 为空，网络层回来时无条件调用",
+    "fix": "安装 completion_table（copy/call/type/delete 四个回调）到 task+0x98，并把 task+0xd0 指向 task+0x98；同时用自有虚表钩住 slot0 析构以便知道任务释放"
+  },
+  "gotchas": [
+    "username 必须等于当前登录账号（从 xwechat_files 最近活跃目录取），否则服务端 201「发送失败」",
+    "XML 字段照真实客户端来：没有 contentattr，要有 contentDescShowType/contentDescScene、sourceUserName 等占位节点",
+    "抓真实报文的方法：界面发一条带标记的内容 → 只读扫内存找 <TimelineObject>（scan.py），比 inline hook 安全",
+    "配置读取的坑：approved 缓冲必须 >= 65（64 位十六进制哈希 + 换行）。缓冲正好 65 时 fgets 读不满一行，残留的 \\n 会被下一次 fgets 当成第 3 行，导致账号护栏静默失效",
+    "LoadLibraryW 对已加载模块不再触发 DllMain：换令牌/换授权必须靠组件每次请求重读配置文件，不能靠重新注入",
+    "同一进程里每个版本的 DLL 各占一个端口；组件改成从 PORT_BASE 自动找空端口并把实际端口写进 port 文件，加载器读它，不再逐版本改端口",
+    "任务完成回调（+0x98/+0xd0 的 std::function）必须在派发前装好，否则网络层回来时空指针调用 → 客户端闪退"
+  ],
+  "component": {
+    "buildTag": "r7",
+    "dll": "bin/wb_moments_r7.dll",
+    "portBase": 32000,
+    "portSpan": 10,
+    "portFile": "%TEMP%\\wb-moments-port.txt",
+    "config": "%TEMP%\\wb-moments-token.txt（第1行令牌 / 第2行授权哈希 / 第3行期望 wxid）"
+  }
+}

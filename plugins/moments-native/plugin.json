@@ -1,0 +1,145 @@
+{
+  "id": "moments-native",
+  "name": "朋友圈发布（小鱼原生方案）",
+  "version": "2.2.2",
+  "apiVersion": 2,
+  "host": "wechatagent",
+  "description": "按当前人设写一条朋友圈并发布。默认走原生通道（在微信进程里自建 SNS 任务直接投递，已适配内置微信 4.1.10.27，返回 ret=0 与 objectId）。已知代价：两次实测显示原生投递后微信可能被服务端下线、登录提示「新设备」，重新扫码即可恢复；发射前仍过熔断（间隔 30 分钟、每天 5 条、连续失败冷却）。另保留界面通道（uia）与协议网关（gateway）。",
+  "permissions": [
+    "storage",
+    "history_read",
+    "persona_read",
+    "model_generate",
+    "schedule"
+  ],
+  "requiresHostFeatures": [
+    "persona-read-v1",
+    "model-utility-v1",
+    "daily-schedule-v1",
+    "history-day-v1"
+  ],
+  "requiresAccount": true,
+  "schedule": {
+    "timeSetting": "postTime",
+    "personaScoped": true,
+    "completionSettings": [
+      "postTime",
+      "channel",
+      "mode"
+    ]
+  },
+  "settings": {
+    "postTime": "21:30",
+    "mode": "draft",
+    "channel": "native",
+    "sessionFile": "",
+    "accountWxid": "",
+    "gatewayUrl": "",
+    "gatewayPath": "/sns/SendFriendCircle",
+    "gatewayFormat": "wechatpadpro",
+    "gatewayToken": "",
+    "maxPostsPerDay": 1,
+    "textLength": 80,
+    "styleExtra": "",
+    "gatewayPrivacy": 0
+  },
+  "configSchema": {
+    "postTime": {
+      "type": "string",
+      "title": "每日发布时间（北京时间 HH:MM）",
+      "description": "到点后由后台写稿并按通道处理。设为 00:00 表示总结前一天。",
+      "minLength": 5,
+      "maxLength": 5
+    },
+    "mode": {
+      "type": "string",
+      "title": "运行模式",
+      "enum": [
+        "publish",
+        "draft"
+      ],
+      "description": "publish 按通道投递；draft 只写稿进发件箱，不发任何东西。原生通道建议先用 draft 或 prepare 走通一遍。"
+    },
+    "channel": {
+      "type": "string",
+      "title": "发布通道",
+      "enum": [
+        "uia",
+        "native",
+        "gateway",
+        "outbox",
+        "auto"
+      ],
+      "description": "native：原生组件（已适配内置微信 4.1.10.27，投递返回 ret=0 并带 objectId，推荐）；uia：界面操作（长按相机→粘贴→发表）；gateway：协议网关；outbox：只写稿；auto：组件优先，其次界面，再次网关。"
+    },
+    "sessionFile": {
+      "type": "string",
+      "title": "组件会话文件（可留空）",
+      "description": "加载器写下的 session.json 路径。留空则用工作区 state/moments-native/session.json。",
+      "maxLength": 300
+    },
+    "accountWxid": {
+      "type": "string",
+      "title": "发布用微信号（可留空）",
+      "description": "留空则自动取管理员设置里的第一个 wxid。报文里的 username 必须与运行组件的账号一致。",
+      "maxLength": 120
+    },
+    "gatewayUrl": {
+      "type": "string",
+      "title": "协议网关地址",
+      "description": "支持朋友圈发布的本机/内网 HTTP 服务基地址，例如 http://127.0.0.1:8848。留空则网关通道不可用。",
+      "maxLength": 300
+    },
+    "gatewayPath": {
+      "type": "string",
+      "title": "网关发布接口路径",
+      "description": "默认 /sns/SendFriendCircle（Pad 协议服务的发朋友圈接口），按实际服务路由填写。",
+      "maxLength": 120
+    },
+    "gatewayFormat": {
+      "type": "string",
+      "title": "网关协议格式",
+      "enum": [
+        "wechatpadpro",
+        "generic"
+      ],
+      "description": "wechatpadpro：body 用 Content 字段、令牌走 ?key=；generic：body 用 content 字段、令牌走 Authorization: Bearer。",
+      "maxLength": 20
+    },
+    "gatewayToken": {
+      "type": "string",
+      "title": "网关令牌",
+      "description": "按网关要求填写，可留空。",
+      "maxLength": 300,
+      "secret": true
+    },
+    "maxPostsPerDay": {
+      "type": "integer",
+      "title": "每天最多发布条数",
+      "description": "全局共享，默认 1 条，最多 3 条。",
+      "minimum": 1,
+      "maximum": 3
+    },
+    "textLength": {
+      "type": "integer",
+      "title": "正文长度（汉字，约）",
+      "description": "20～300，默认 80。太短显得敷衍，太长不像随手发的。",
+      "minimum": 20,
+      "maximum": 300
+    },
+    "styleExtra": {
+      "type": "string",
+      "title": "额外写作要求（可选）",
+      "description": "例如：不要提工作；语气更轻松。会追加到生成提示词里。",
+      "maxLength": 300
+    },
+    "gatewayPrivacy": {
+      "type": "integer",
+      "title": "网关可见范围（0 公开 / 1 仅自己可见）",
+      "description": "第一次接网关建议先用 1（私密）发一条测试，确认真的出现了再改成 0 公开。",
+      "minimum": 0,
+      "maximum": 1
+    }
+  },
+  "author": "wechatwb"
+}

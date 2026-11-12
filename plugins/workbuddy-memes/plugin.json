@@ -1,0 +1,28 @@
+{
+  "id": "workbuddy-memes",
+  "name": "WorkBuddy 表情包来源与搜索",
+  "description": "按情绪或角色关键词从公开图片页查找表情素材，返回来源链接；可把候选下载、校验后加入本机共享表情池，供既有表情发送链路使用。不依赖外部 DSH 插件宿主。",
+  "version": "1.0.0",
+  "apiVersion": 2,
+  "host": "wechatagent",
+  "permissions": ["web_fetch", "storage"],
+  "settings": {
+    "provider": "auto",
+    "maxResults": 3
+  },
+  "configSchema": {
+    "provider": {
+      "type": "string",
+      "title": "图片来源",
+      "enum": ["auto", "bing", "openverse", "imgflip"],
+      "description": "自动：先查 Bing 公开图片页，失败后尝试 Openverse。Openverse 与 Imgflip 在部分网络环境可能超时。"
+    },
+    "maxResults": {
+      "type": "integer",
+      "title": "每次候选数量",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "每轮最多提供给模型的候选条数，默认 3。"
+    }
+  }
+}
