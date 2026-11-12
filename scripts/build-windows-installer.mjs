@@ -40,7 +40,7 @@ fs.writeFileSync(removeFile, removal);
 const include = path.join(buildRoot, 'installer.nsh');
 const license = path.join(buildRoot, 'license.txt');
 // NSIS must see a BOM to decode Chinese license text rather than the system ANSI code page.
-fs.writeFileSync(license, '\uFEFF' + ['LICENSE-MY12YYDS.md','LICENSE','LICENSES.md'].map(name=>fs.readFileSync(path.join(root,name),'utf8').replace(/^\uFEFF/,'')).join('\r\n\r\n'));
+fs.writeFileSync(license, '\uFEFF' + ['LICENSE-LYON-HENG.md','LICENSE','LICENSES.md'].map(name=>fs.readFileSync(path.join(root,name),'utf8').replace(/^\uFEFF/,'')).join('\r\n\r\n'));
 let storage = fs.readFileSync(path.join(root, 'packaging/windows/installer-storage.nsh'), 'utf8');
 if (test) storage = storage.replaceAll('Software\\WeChatAgent', 'Software\\WeChatBot-Installer-Test-Legacy')
   .replaceAll('Software\\WeChatBot"', 'Software\\WeChatBot-Installer-Test"')
