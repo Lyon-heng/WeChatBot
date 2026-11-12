@@ -1,0 +1,406 @@
+{
+  "version": "1.0.0",
+  "entries": [
+    {
+      "id": "cosyvoice-engine",
+      "name": "原生肥鱼 CosyVoice3",
+      "version": "1.0.1",
+      "essential": false,
+      "source": "optional-extensions/cosyvoice-engine",
+      "file": "cosyvoice-engine-1.0.1.zip",
+      "bytes": 3485,
+      "sha256": "47ffb9729e99a4b23ca3158964faf339cbbddc359ef0165ecd57fb3c071f733d",
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.0.0/cosyvoice-engine-1.0.1.zip"
+    },
+    {
+      "id": "memory-evaluation",
+      "name": "虚构长对话评测",
+      "version": "1.0.1",
+      "essential": false,
+      "source": "optional-extensions/memory-evaluation",
+      "file": "memory-evaluation-1.0.1.zip",
+      "bytes": 3283,
+      "sha256": "d1b2db16b3e22ae1dc70f1357a0993b997dfccc35a4d3ae3f23223f50c9a54a8",
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.0.0/memory-evaluation-1.0.1.zip"
+    },
+    {
+      "id": "group-behavior",
+      "name": "自然群聊节奏",
+      "version": "1.0.1",
+      "essential": false,
+      "source": "optional-extensions/group-behavior",
+      "file": "group-behavior-1.0.1.zip",
+      "bytes": 5190,
+      "sha256": "91b4bf763cf09ddc638baeaf3aaeaa2d1ad38007a11f8728805ce0590af4e1a3",
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.0.0/group-behavior-1.0.1.zip"
+    },
+    {
+      "id": "local-voice-model",
+      "name": "本地声音模型",
+      "version": "1.0.0",
+      "essential": false,
+      "source": "optional-extensions/local-voice-model",
+      "file": "local-voice-model-1.0.0.zip",
+      "bytes": 2435,
+      "sha256": "3f6d483e83d6c3898b7ea9e7953e43c36796d8a8feac2de6a798171204744eef",
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.0.0/local-voice-model-1.0.0.zip"
+    },
+    {
+      "id": "memory-retrieval",
+      "name": "档案检索助手",
+      "version": "1.2.1",
+      "essential": false,
+      "source": "optional-extensions/memory-retrieval",
+      "file": "memory-retrieval-1.2.1.zip",
+      "bytes": 6756,
+      "sha256": "e6beb4d8d007ad35a540bece75639e4f23976839d9b264b10c362ce191e33fc8",
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.0.0/memory-retrieval-1.2.1.zip"
+    },
+    {
+      "id": "memory-events",
+      "name": "事件与约定",
+      "version": "1.2.1",
+      "essential": false,
+      "source": "optional-extensions/memory-events",
+      "file": "memory-events-1.2.1.zip",
+      "bytes": 6212,
+      "sha256": "87b28f35b8f7793b8f6f7f9ffda2e7a55ffdfe70fd82a9a075fac1d13b307579",
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.0.0/memory-events-1.2.1.zip"
+    },
+    {
+      "id": "admin-dsh",
+      "name": "管理员 WorkBuddy 助手",
+      "version": "1.1.0",
+      "essential": false,
+      "source": "optional-extensions/admin-dsh",
+      "file": "admin-dsh-1.1.0.zip",
+      "bytes": 3621,
+      "sha256": "316394a0273b500e86bff12412046cddc4e304d094320915c5fc185a28a13b05",
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.0.0/admin-dsh-1.1.0.zip"
+    },
+    {
+      "id": "bilibili-public",
+      "name": "哔哩哔哩",
+      "version": "1.0.0",
+      "essential": false,
+      "source": "optional-extensions/bilibili-public",
+      "file": "bilibili-public-1.0.0.zip",
+      "bytes": 3198,
+      "sha256": "e4a8561223813a831972f17be41c3aa2e3c3b6b463b08ccbcdb0f877111f1e23",
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.0.0/bilibili-public-1.0.0.zip"
+    },
+    {
+      "id": "fish-notebook",
+      "name": "鱼的记事本",
+      "version": "1.0.0",
+      "essential": false,
+      "source": "optional-extensions/fish-notebook",
+      "file": "fish-notebook-1.0.0.zip",
+      "bytes": 6036,
+      "sha256": "1a9bbafb65b4c65d10fd86e4fbf1578fe449c7c8707115c9b59d22e939841e69",
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.0.0/fish-notebook-1.0.0.zip"
+    },
+    {
+      "id": "netease-music",
+      "name": "网易云音乐",
+      "version": "1.1.0",
+      "essential": false,
+      "source": "optional-extensions/netease-music",
+      "file": "netease-music-1.1.0.zip",
+      "bytes": 3282,
+      "sha256": "ec6edd29c8538ff19da9218a94a3204cd4758126e40b17f6123a147404cece19",
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.0.0/netease-music-1.1.0.zip"
+    },
+    {
+      "id": "people-memory",
+      "name": "跨聊天人物记忆",
+      "version": "1.3.0",
+      "essential": true,
+      "source": "optional-extensions/people-memory",
+      "file": "people-memory-1.3.0.zip",
+      "bytes": 6577,
+      "sha256": "3d613c8275df400c636c5c90843332443fb9a9d79aa7e39537926e7256695f76",
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.0.0/people-memory-1.3.0.zip"
+    },
+    {
+      "id": "persona-studio",
+      "name": "AI 人格工作室",
+      "version": "1.1.0",
+      "essential": true,
+      "source": "optional-extensions/persona-studio",
+      "file": "persona-studio-1.1.0.zip",
+      "bytes": 5821,
+      "sha256": "27ed68224ffb5f052cc1de146a0cedf0d9dce536b34f2e45c9f4e8c50f1c80c6",
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.0.0/persona-studio-1.1.0.zip"
+    },
+    {
+      "id": "speech-recognition",
+      "name": "微信语音识别",
+      "version": "1.4.0",
+      "essential": false,
+      "source": "optional-extensions/speech-recognition",
+      "file": "speech-recognition-1.4.0.zip",
+      "bytes": 92798,
+      "sha256": "8579eb353b42592fa0624db48d79a7907dc572ef2346ad6e96f191e19f846698",
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.0.0/speech-recognition-1.4.0.zip"
+    },
+    {
+      "id": "voice-studio",
+      "name": "肥鱼声音工作室",
+      "version": "1.4.1",
+      "essential": false,
+      "source": "optional-extensions/voice-studio",
+      "file": "voice-studio-1.4.1.zip",
+      "bytes": 8184,
+      "sha256": "711a2b5842a52ba35897b93ab8afd38d92096e465c488ad3a7ae37e0bf5e9db6",
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.0.0/voice-studio-1.4.1.zip"
+    },
+    {
+      "id": "moments-native",
+      "name": "朋友圈发布（小鱼原生方案）",
+      "version": "2.0.0",
+      "essential": false,
+      "source": "optional-extensions/moments-native",
+      "file": "moments-native-2.0.0.zip",
+      "bytes": 338483,
+      "sha256": "c6ac54c01e982873d760947341011db946fdc0d3fd005f97a336c917d02eef9f",
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.0.0/moments-native-2.0.0.zip"
+    },
+    {
+      "id": "moments-rpa",
+      "name": "朋友圈 · 界面发布（RPA）",
+      "version": "1.0.0",
+      "essential": false,
+      "source": "optional-extensions/moments-rpa",
+      "file": "moments-rpa-1.0.0.zip",
+      "bytes": 281481,
+      "sha256": "93396f1fbbb018a6f3b7d1861101f558a42a36137cfe9c92fdbd40c9875eeaad",
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.0.0/moments-rpa-1.0.0.zip"
+    },
+    {
+      "id": "muse-video",
+      "name": "Muse 视频工作台",
+      "version": "1.3.0",
+      "essential": false,
+      "source": "optional-extensions/muse-video",
+      "file": "muse-video-1.3.0.zip",
+      "bytes": 45773,
+      "sha256": "6525d25c41e045b4e5064c03063f8d5fdbb922f92d80c9e31d9041872477d9e6",
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.0.0/muse-video-1.3.0.zip"
+    },
+    {
+      "id": "workbuddy-memes",
+      "name": "WorkBuddy 表情包来源与搜索",
+      "version": "1.0.0",
+      "essential": false,
+      "source": "optional-extensions/workbuddy-memes",
+      "file": "workbuddy-memes-1.0.0.zip",
+      "bytes": 2901,
+      "sha256": "4edc5e4fd1af5a96c0e4235ffe69b0f10c0239412731b946a6ba9f221a309c94",
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.0.0/workbuddy-memes-1.0.0.zip"
+    }
+  ],
+  "schemas": {
+    "speech-recognition": {
+      "id": "speech-recognition",
+      "name": "微信语音识别",
+      "version": "1.3.0",
+      "apiVersion": 2,
+      "host": "wechatagent",
+      "author": "sourcepro5 / WeChatBot",
+      "description": "识别好友和群聊收到的微信语音，再由当前聊天模型回复。可读取接口模型并检测配置；需自行填写语音API，未配置、未授权的聊天不上传音频。",
+      "permissions": [
+        "audio_read"
+      ],
+      "requiresHostFeatures": [
+        "actions-v1",
+        "voice-input-v1",
+        "voice-input-route-v1"
+      ],
+      "requiresAccount": true,
+      "settings": {
+        "apiProtocol": "auto",
+        "endpoint": "",
+        "apiKey": "",
+        "authHeader": "Authorization",
+        "authPrefix": "Bearer ",
+        "headersJson": "{}",
+        "requestMode": "multipart",
+        "model": "",
+        "language": "",
+        "audioFormat": "wav",
+        "fileField": "file",
+        "modelField": "model",
+        "languageField": "language",
+        "extraFieldsJson": "{}",
+        "jsonTemplate": "{\"audio\":\"{{audio_base64}}\",\"model\":\"{{model}}\"}",
+        "responseMode": "json",
+        "responsePath": "text",
+        "timeoutMs": 20000,
+        "maxDurationSeconds": 60,
+        "maxTranscriptChars": 4000,
+        "cacheResults": true,
+        "modelsEndpoint": "",
+        "modelsResponsePath": "data",
+        "autoReadModels": true
+      },
+      "configSchema": {
+        "apiProtocol": {
+          "type": "string",
+          "title": "API 协议",
+          "description": "按协议处理服务地址、鉴权和请求；自定义请求保留高级模板。",
+          "enum": [
+            "auto",
+            "openai-transcriptions",
+            "openai-chat",
+            "chat-audio-data-url",
+            "anthropic-messages",
+            "custom"
+          ]
+        },
+        "endpoint": {
+          "type": "string",
+          "title": "API 服务地址",
+          "description": "标准协议可填写基础地址（含所需版本路径）或完整识别地址，保留网关路径前缀；自定义请求填写完整 POST 地址。",
+          "maxLength": 2048
+        },
+        "apiKey": {
+          "type": "string",
+          "title": "API Key",
+          "secret": true,
+          "maxLength": 4096
+        },
+        "authHeader": {
+          "type": "string",
+          "title": "密钥请求头名称",
+          "maxLength": 100
+        },
+        "authPrefix": {
+          "type": "string",
+          "title": "密钥前缀（保留末尾空格）",
+          "maxLength": 100
+        },
+        "headersJson": {
+          "type": "string",
+          "title": "额外请求头（JSON）",
+          "description": "可填写自定义鉴权头；界面隐藏已保存值。",
+          "secret": true,
+          "maxLength": 16000
+        },
+        "requestMode": {
+          "type": "string",
+          "title": "请求格式",
+          "enum": [
+            "multipart",
+            "json"
+          ]
+        },
+        "model": {
+          "type": "string",
+          "title": "识别模型 ID",
+          "description": "可从 API 返回的模型列表选择；此处不能填写网址。",
+          "maxLength": 200
+        },
+        "language": {
+          "type": "string",
+          "title": "语言参数（可留空）",
+          "maxLength": 40
+        },
+        "audioFormat": {
+          "type": "string",
+          "title": "上传音频格式",
+          "description": "新版宿主内置 SILK 转 WAV 组件，无需安装 Python 依赖或识别模型；silk 则直接上传原始音频。",
+          "enum": [
+            "wav",
+            "silk"
+          ]
+        },
+        "fileField": {
+          "type": "string",
+          "title": "multipart 音频字段名",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "modelField": {
+          "type": "string",
+          "title": "multipart 模型字段名",
+          "maxLength": 100
+        },
+        "languageField": {
+          "type": "string",
+          "title": "multipart 语言字段名",
+          "maxLength": 100
+        },
+        "extraFieldsJson": {
+          "type": "string",
+          "title": "multipart 额外字段（JSON 对象）",
+          "maxLength": 16000
+        },
+        "jsonTemplate": {
+          "type": "string",
+          "title": "JSON 请求模板",
+          "description": "支持 {{audio_base64}}、{{audio_data_url}}、{{model}}、{{language}}、{{filename}}、{{mime_type}}、{{sample_rate}}、{{audio_bytes}}。",
+          "maxLength": 32000
+        },
+        "responseMode": {
+          "type": "string",
+          "title": "响应格式",
+          "enum": [
+            "json",
+            "text"
+          ]
+        },
+        "responsePath": {
+          "type": "string",
+          "title": "JSON 转写结果路径",
+          "description": "例如 text、data.text、results.0.text；留空表示根值。",
+          "maxLength": 300
+        },
+        "timeoutMs": {
+          "type": "integer",
+          "title": "API 超时（毫秒）",
+          "minimum": 1000,
+          "maximum": 25000
+        },
+        "maxDurationSeconds": {
+          "type": "integer",
+          "title": "最长语音（秒）",
+          "minimum": 1,
+          "maximum": 60
+        },
+        "maxTranscriptChars": {
+          "type": "integer",
+          "title": "转写文本长度上限",
+          "minimum": 100,
+          "maximum": 4000
+        },
+        "cacheResults": {
+          "type": "boolean",
+          "title": "缓存本进程内已识别的消息，避免重复上传"
+        },
+        "modelsEndpoint": {
+          "type": "string",
+          "title": "模型列表 API 地址（可留空）",
+          "description": "留空时在识别接口同一服务下尝试常见 models 路径；特殊服务可填写完整 GET 地址。",
+          "maxLength": 2048
+        },
+        "modelsResponsePath": {
+          "type": "string",
+          "title": "模型列表 JSON 路径",
+          "description": "通常为 data；也支持 models 或 data.models。",
+          "maxLength": 300
+        },
+        "autoReadModels": {
+          "type": "boolean",
+          "title": "配置页自动读取模型列表（不自动测试语音）"
+        }
+      }
+    }
+  },
+  "all": {
+    "file": "WeChatBot-plugins-all-1.0.0.zip",
+    "bytes": 824914,
+    "sha256": "b5d25cb573ff7a0c60a56465702a327ab5890088739135d174dafb3b21f5122e",
+    "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.0.0/WeChatBot-plugins-all-1.0.0.zip"
+  }
+}

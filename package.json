@@ -1,0 +1,11 @@
+{
+  "name": "wechatbot-runtime",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test:reply-protocol": "node --test scripts/test-sticker-replies.mjs",
+    "test:onebot-protocol": "node --test scripts/test-onebot-protocol.mjs",
+    "release:summary": "node scripts/release-summary.mjs"
+  }
+}

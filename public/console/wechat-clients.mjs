@@ -1,0 +1,5 @@
+export function wechatClientsCard(){return '<section class="card" id="wechat-clients"><div class="card-heading"><div><h3>微信版本与内置客户端</h3><p class="card-description">自动检测本机微信，校验对应组件。推荐使用随程序准备的 4.1.10.27 x64。</p></div></div><div data-wechat-client-result aria-live="polite"><p>正在检测微信版本…</p></div><div class="button-row space-top"><button class="button" data-wechat-client-refresh>重新检测</button><button class="button primary" data-wechat-bundled-open disabled>使用并打开内置匹配版</button></div></section>';}
+export function renderClientResult(data,esc){
+  const rows=data.clients.map(row=>'<article class="notice plain"><div><strong>'+esc(row.bundled?'内置匹配微信':row.configured?'当前选择的微信':'本机微信')+' · '+esc(row.version||'版本未知')+(row.running?' · 运行中':'')+'</strong><p>'+esc(row.status)+'</p><p class="subtle" style="overflow-wrap:anywhere">'+esc(row.path)+'</p></div></article>').join('');
+  return (rows||'<p>未找到微信客户端。</p>')+(!data.bundled?'<p class="inline-error">内置客户端尚未准备或已缺失。请重新安装程序并保留 data，再重新检测。</p>':'')+'<p class="card-description space-top">'+esc(data.message)+'</p>';
+}

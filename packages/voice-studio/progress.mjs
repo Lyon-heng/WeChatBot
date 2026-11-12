@@ -1,0 +1,3 @@
+export const VOICE_STAGES=Object.freeze({voice_rate_limit:'等待语音发送额度',target_busy:'等待同一聊天发送完成',native_not_ready:'等待微信语音组件',queued:'等待制作',source:'读取歌曲音源',download:'下载公开音源',separate:'分离人声与伴奏',speech:'合成语音',conversion:'转换肥鱼音色',mix:'混合伴奏',encode:'编码微信语音',save:'保存歌曲成品',cached:'复用已保存歌曲',prepared:'等待发送',submitting:'正在提交微信',submitted:'等待微信回执',confirmed:'已确认送达',failed:'处理失败',unconfirmed:'送达待核对',cancelled:'已取消',expired:'等待已超时'});
+export const voiceStageLabel=stage=>VOICE_STAGES[stage]??'正在处理';
+export const voiceQueueRank=job=>['generating','prepared','submitting','submitted'].includes(job.state)?0:job.request.kind==='speech'?1:2;

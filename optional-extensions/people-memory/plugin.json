@@ -1,0 +1,190 @@
+{
+  "id": "people-memory",
+  "name": "跨聊天人物记忆",
+  "version": "1.3.0",
+  "apiVersion": 2,
+  "host": "wechatagent",
+  "author": "Lyon-heng",
+  "description": "按真实微信身份管理人物事实、自动召回与滚动摘要；可配置记录类型、有效期、容量、上下文及摘要节奏，并按聊天授权。",
+  "permissions": [
+    "people_memory"
+  ],
+  "requiresHostFeatures": [
+    "people-memory-v1",
+    "people-memory-auto-v1",
+    "people-memory-config-v1"
+  ],
+  "settings": {
+    "autoRemember": true,
+    "autoRecall": true,
+    "recallLimit": 4,
+    "recallPeopleLimit": 5,
+    "contextBudget": 3300,
+    "allowCrossChat": true,
+    "rememberNickname": true,
+    "rememberPreference": true,
+    "rememberPet": true,
+    "rememberProject": true,
+    "rememberActivity": true,
+    "rememberPlan": true,
+    "factRetentionDays": 180,
+    "planRetentionDays": 7,
+    "maxNotesPerPerson": 64,
+    "archiveRecall": true,
+    "autoSummary": true,
+    "summaryTriggerRecords": 12,
+    "summaryCooldownSeconds": 120,
+    "recentMessages": 40,
+    "recentChars": 12000,
+    "coldWakeMinutes": 0,
+    "allowEvaluation": true,
+    "nicknameRetentionDays": 730
+  },
+  "configSchema": {
+    "autoRemember": {
+      "type": "boolean",
+      "title": "自动记录本人事实",
+      "description": "只记录真实发送者的明确陈述；不从同名、引用或转发推断身份。"
+    },
+    "autoRecall": {
+      "type": "boolean",
+      "title": "自动召回人物记忆",
+      "description": "关闭后不自动注入人物与档案补充资料，基础近期对话仍保留。"
+    },
+    "recallLimit": {
+      "type": "integer",
+      "title": "每人召回条数",
+      "description": "含置顶和昵称；数量越多，使用的上下文越多。",
+      "minimum": 1,
+      "maximum": 8
+    },
+    "recallPeopleLimit": {
+      "type": "integer",
+      "title": "每轮最多召回几个人",
+      "description": "只读取当前在场且已授权的人物。",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "contextBudget": {
+      "type": "integer",
+      "title": "人物资料字符预算",
+      "description": "不含固定说明文字；超出时优先裁减低优先级内容。",
+      "minimum": 1000,
+      "maximum": 6000
+    },
+    "allowCrossChat": {
+      "type": "boolean",
+      "title": "允许本人授权后的跨聊天记忆",
+      "description": "关闭后不跨聊天召回，也不接受新的跨聊天记忆申请；打开不会自动公开已有私聊记忆。"
+    },
+    "rememberNickname": {
+      "type": "boolean",
+      "title": "自动记录昵称",
+      "description": ""
+    },
+    "rememberPreference": {
+      "type": "boolean",
+      "title": "自动记录偏好",
+      "description": ""
+    },
+    "rememberPet": {
+      "type": "boolean",
+      "title": "自动记录宠物信息",
+      "description": ""
+    },
+    "rememberProject": {
+      "type": "boolean",
+      "title": "自动记录项目信息",
+      "description": ""
+    },
+    "rememberActivity": {
+      "type": "boolean",
+      "title": "自动记录学习与活动",
+      "description": ""
+    },
+    "rememberPlan": {
+      "type": "boolean",
+      "title": "自动记录明确计划",
+      "description": ""
+    },
+    "factRetentionDays": {
+      "type": "integer",
+      "title": "新事实保留天数",
+      "description": "只影响之后新增的记录，不批量改动旧记录的有效期。",
+      "minimum": 1,
+      "maximum": 3650
+    },
+    "planRetentionDays": {
+      "type": "integer",
+      "title": "新计划保留天数",
+      "description": "仅影响自动记录的新计划。",
+      "minimum": 1,
+      "maximum": 365
+    },
+    "maxNotesPerPerson": {
+      "type": "integer",
+      "title": "每人记录容量",
+      "description": "包含忘记和过期的墓碑记录；调低不会删除已有数据。",
+      "minimum": 16,
+      "maximum": 256
+    },
+    "archiveRecall": {
+      "type": "boolean",
+      "title": "自动补充旧事实与档案片段",
+      "description": "需要同时打开自动召回；只查询当前聊天的档案，不扩大跨聊天权限。"
+    },
+    "autoSummary": {
+      "type": "boolean",
+      "title": "后台滚动摘要",
+      "description": "使用当前聊天模型并产生用量；关闭后已有摘要和原文保留。"
+    },
+    "summaryTriggerRecords": {
+      "type": "integer",
+      "title": "累计多少条旧消息后整理",
+      "description": "窗口外达到条件才尝试，不保证每轮生成摘要。",
+      "minimum": 12,
+      "maximum": 100
+    },
+    "summaryCooldownSeconds": {
+      "type": "integer",
+      "title": "摘要最短间隔（秒）",
+      "description": "成功与失败均受冷却限制，避免频繁消耗模型额度。",
+      "minimum": 120,
+      "maximum": 3600
+    },
+    "recentMessages": {
+      "type": "integer",
+      "title": "近期对话最多条数",
+      "description": "仅在已启用本插件的聊天生效，消息条数不等于对话轮数。",
+      "minimum": 4,
+      "maximum": 100
+    },
+    "recentChars": {
+      "type": "integer",
+      "title": "近期对话字符预算",
+      "description": "仍受宿主总上下文上限约束。",
+      "minimum": 2000,
+      "maximum": 24000
+    },
+    "coldWakeMinutes": {
+      "type": "integer",
+      "title": "闲置多久后缩减上下文（分钟）",
+      "description": "0 为不缩减，适合持续聊天。",
+      "minimum": 0,
+      "maximum": 1440
+    },
+    "allowEvaluation": {
+      "type": "boolean",
+      "title": "允许主动运行模型评测",
+      "description": "关闭后不接受新的评测；开启仍需在评测页面单独确认模型额度。"
+    },
+    "nicknameRetentionDays": {
+      "type": "integer",
+      "title": "新昵称记录保留天数",
+      "minimum": 1,
+      "maximum": 3650,
+      "description": "默认730天。与长期偏好和临时计划分开；只影响新记录，已有昵称记录不批量改期。"
+    }
+  },
+  "requiresAccount": true
+}

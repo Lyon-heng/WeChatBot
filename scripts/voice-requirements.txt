@@ -1,0 +1,3 @@
+# Optional format conversion only; no local speech-recognition model.
+# Not needed when the configured API accepts WeChat SILK directly.
+pilk>=0.2.4,<1

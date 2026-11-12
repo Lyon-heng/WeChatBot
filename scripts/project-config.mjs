@@ -1,0 +1,184 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { selectRoleText } from '../components/qq-bridge/src/role-card.js';
+import {personaError} from '../public/console/persona-files.mjs';
+import {upsertToolCatalogPatch} from '../packages/dsh-social-bridge-plugin/plugin-catalog.mjs';
+import {validateModelSettings} from '../packages/dsh-social-bridge-plugin/model-routing.mjs';
+import {upsertAssistantPresetPatch} from '../packages/dsh-social-bridge-plugin/assistant-preset.mjs';
+import { migrateConnections } from './migrate-io-config.mjs';
+import { validateStickerSettings } from '../components/qq-bridge/src/core/sticker-policy.js';
+import { validateSearchSettings } from '../packages/dsh-social-bridge-plugin/search-policy.mjs';
+import {validateProactiveSettings} from '../components/qq-bridge/src/core/proactive-policy.js';
+import { validateContextSettings } from '../packages/dsh-social-bridge-plugin/context-policy.mjs';
+import {validateHistorySettings,migrateHistorySettings} from '../packages/dsh-social-bridge-plugin/history-policy.mjs';
+import { validateWebReaderSettings } from '../packages/dsh-social-bridge-plugin/web-reader-policy.mjs';
+import {validateMemeLibrarySettings} from '../packages/dsh-social-bridge-plugin/meme-library-policy.mjs';
+import {validateFishNotebook} from '../packages/dsh-social-bridge-plugin/fish-notebook-policy.mjs';
+import {validateMemberMemory} from '../packages/dsh-social-bridge-plugin/member-memory-policy.mjs';
+import {validateTextTransport} from './foreground-sender.mjs';
+import {validateVisionSettings} from '../packages/dsh-social-bridge-plugin/vision-fallback.mjs';
+
+import {validateConversationSettings,conversationMode} from '../packages/dsh-social-bridge-plugin/conversation-policy.mjs';
+import {migrateDshSettings} from '../packages/dsh-social-bridge-plugin/dsh-migration.mjs';
+import {PLUGIN_HOST_FILES,VOICE_HOST_FILES} from '../packages/plugin-api/contract.mjs';
+export const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const dshRevisionFiles = ['fish-notebook.mjs','fish-notebook-policy.mjs','fish-notebook-store.mjs','memory-summary.mjs','reply-layout-policy.mjs','assistant-notifications.mjs','assistant-feedback.mjs','assistant-tasks.mjs','file-tools.mjs','file-transfers.mjs','assistant-policy.mjs','plugin-catalog.mjs','work-modes.mjs','assistant-preset.mjs','local-policy.mjs','image-input.mjs','deadline.mjs','prompt-context.mjs','member-memory.mjs','member-memory-policy.mjs','meme-library.mjs','meme-library-policy.mjs','native-context.mjs','session-groups.mjs','conversation-policy.mjs','dsh-access.mjs','dsh-bundled.mjs','sticker-pool-review.mjs','dsh-migration.mjs','web-reader.mjs','web-reader-policy.mjs','web-reader-content.mjs','web-reader-fetch.mjs','web-reader-zxsj.mjs','skills/web-reader/skill.json','skills/web-reader/SKILL.md','skills/web-reader/references/quotes.md','skills/web-reader/references/video.md','model-search.mjs','dsh-search.mjs','search-provider.mjs','skills/search/skill.json','skills/search/SKILL.md','search-budget.mjs','search-policy.mjs','weather-query.mjs','weather-source.mjs','social-tool-policy.mjs','social-tool-restrict.mjs','context-policy.mjs','history-policy.mjs','history-store.mjs','history-runtime.mjs','usage-summary.mjs','request-window.mjs'];
+export function updateDshPluginEntrypoints(patch, root = projectRoot, moduleDir = path.join(root,'packages','dsh-social-bridge-plugin')) {
+  const sources=dshRevisionFiles.map(name=>path.join(moduleDir,name));
+  sources.push(path.join(moduleDir,'model-routing.mjs'));
+  for(const name of ['index.mjs','worker.mjs','catalog.mjs','people-memory.mjs','admin-dsh.mjs','model-utility.mjs']){const file=path.join(root,'packages/plugin-api',name);if(fs.existsSync(file))sources.push(file);}
+  for(const name of [...PLUGIN_HOST_FILES,...VOICE_HOST_FILES]){const file=path.join(root,name);if(fs.existsSync(file)&&!sources.includes(file))sources.push(file);}
+  for(const name of ['index.mjs','catalog.mjs','snapshots.mjs']){const file=path.join(root,'packages/extension-runtime',name);if(fs.existsSync(file))sources.push(file);}
+  if(!sources.every(file=>fs.existsSync(file)))return {patch,revision:''};
+  const revision=crypto.createHash('sha256').update(Buffer.concat(sources.map(file=>fs.readFileSync(file)))).digest('hex').slice(0,16);
+  const entry=pathToFileURL(path.join(moduleDir,'native-context.mjs')).href+'?wechatagent='+revision;
+  patch=patch.replace(/(    - id: dsh-social-bridge-plugin\r?\n      name:).*/,'$1 '+JSON.stringify(entry));
+  const restrictEntry=pathToFileURL(path.join(moduleDir,'social-tool-restrict.mjs')).href+'?wechatagent='+revision;
+  patch=patch.replace(/(          - id: social-tool-restrict\r?\n            name:).*/,'$1 '+JSON.stringify(restrictEntry));
+  return {patch,revision};
+}
+export function repairDshPluginPath(root = projectRoot) {
+  const moduleDir=path.join(root,'packages','dsh-social-bridge-plugin');
+  const patchFile=path.join(moduleDir,'cordis.patch.yml');
+  if(!fs.existsSync(patchFile))throw new Error(`DSH plugin patch not found: ${patchFile}`);
+  const before=fs.readFileSync(patchFile,'utf8');
+  const updated=updateDshPluginEntrypoints(before,root,moduleDir);
+  if(!updated.revision)throw new Error('Required DSH plugin source files are missing; the existing configuration was left unchanged.');
+  if(updated.patch===before)throw new Error('The DSH patch does not contain the expected WeChat plugin entries; no file was changed.');
+  const temp=patchFile+'.'+process.pid+'.tmp';fs.writeFileSync(temp,updated.patch);fs.renameSync(temp,patchFile);
+  return {pluginDirectory:moduleDir,revision:updated.revision,patchFile};
+}
+const read = (file) => JSON.parse(fs.readFileSync(file, 'utf8').replace(/^\uFEFF/, ''));
+const write = (file, value) => {
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(`${file}.tmp`, JSON.stringify(value, null, 2) + '\n');
+  fs.renameSync(`${file}.tmp`, file);
+};
+export function validateConfig(config) {
+  validateModelSettings(config.dsh);
+  validateVisionSettings(config.dsh?.visionFallback);
+  validateFishNotebook(config.wechat?.fishNotebook);
+  validateHistorySettings(config.wechat?.history);
+  validateMemberMemory(config.wechat?.memberMemory);
+  validateMemeLibrarySettings(config.wechat?.memeLibrary);
+  validateConversationSettings(config.wechat);
+  validateTextTransport(config.wechat?.textTransport);
+  validateStickerSettings(config.wechat?.stickers);
+  validateSearchSettings(config.wechat?.search);
+  validateProactiveSettings(config.wechat?.proactive);
+  validateContextSettings(config.wechat?.context);
+  validateWebReaderSettings(config.wechat?.webReader);
+  if (config.version !== 1) throw new Error('Unsupported WeChatAgent config version');
+  if (!['nt', 'bundled', 'existing'].includes(config.runtime?.weflowMode ?? 'nt')) throw new Error('weflowMode must be nt, bundled or existing');
+  if (config.runtime?.sender !== 'wechat-hook') throw new Error('sender must be wechat-hook; the UIA sender has been removed');
+  if (config.runtime.sender === 'wechat-hook') {
+    if ((config.runtime.weflowMode ?? 'nt') !== 'nt') throw new Error('WeChat-Hook requires the NT reader for account and receipt checks');
+    const url = new URL(config.hook?.baseUrl ?? '');
+    if (url.protocol !== 'http:' || url.hostname !== '127.0.0.1' || url.username || url.password || url.pathname !== '/' || url.search || url.hash) throw new Error('Hook API must be an HTTP loopback base URL');
+    if (config.hook.expectedVersion !== '4.1.10.27' || !config.hook.wechatExecutable || /[\r\n"\0]/.test(config.hook.wechatExecutable)) throw new Error('Configure the matching WeChat-Hook executable and version 4.1.10.27');
+    for (const [key, low, high] of [['requestTimeoutMs',1000,5000],['receiptTimeoutMs',1000,18000],['maxConcurrentSends',1,4]]) {
+      const value = config.hook[key];
+      if (!Number.isInteger(value) || value < low || value > high) throw new Error('Invalid Hook ' + key);
+    }
+    const port = Number(url.port || 80);
+    if (Object.values(config.ports ?? {}).includes(port)) throw new Error('Hook port must be distinct from the four project ports');
+  }
+  const ports = Object.values(config.ports ?? {});
+  if (ports.length !== 4 || ports.some(p => !Number.isInteger(p) || p < 1024 || p > 65535) || new Set(ports).size !== 4) throw new Error('Configure four distinct service ports between 1024 and 65535');
+  if (!['weflow','onebot','adapter','dshPlugin'].every(key => Number.isInteger(config.ports[key]))) throw new Error('Required ports: weflow, onebot, adapter, dshPlugin');
+  if (!config.runtime?.python || !Array.isArray(config.account?.nicknames) || !config.account.nicknames.length) throw new Error('Python and account nicknames are required');
+  for (const kind of ['groups', 'private']) {
+    if (!Array.isArray(config.wechat?.whitelist?.[kind]) || config.wechat.whitelist[kind].some(id => !/^\d+$/.test(String(id)) || !Number.isSafeInteger(Number(id)) || Number(id) <= 0)) throw new Error(`Invalid ${kind} OneBot IDs; use the numeric IDs in Bridge logs`);
+  }
+  const role = value => typeof value === 'string' && /^[^\\/\0.][^\\/\0]{0,60}$/.test(value) && !value.includes('..');
+  if (!role(config.persona?.default) || Object.values(config.persona?.chats ?? {}).some(value => !role(value))) throw new Error('Invalid persona name');
+  if (!['hybrid', 'mention'].includes(config.wechat.wake_mode)) throw new Error('wake_mode must be hybrid or mention');
+  if (!config.dsh?.provider || !config.dsh?.model || /[\r\n]/.test(config.dsh.provider + config.dsh.model)) throw new Error('Configure DSH provider and model IDs');
+  return config;
+}
+export function prepare(root = projectRoot) {
+  const configFile = path.join(root, 'config', 'wechatagent.json');
+  if (!fs.existsSync(configFile)) fs.copyFileSync(path.join(root, 'config', 'wechatagent.example.json'), configFile);
+  migrateConnections(root);
+  const config = validateConfig(read(configFile));
+  let migrated=migrateHistorySettings(config);
+  if(config.wechat.textTransport===undefined){config.wechat.textTransport={mode:'native'};migrated=true;}
+  if(migrated){validateConfig(config);write(configFile,config);}
+  const migratedMeme=migrateDshSettings(root,config);if(migratedMeme!==null){validateConfig(config);write(configFile,config);}
+  const state = path.join(root, 'state');
+  for (const dir of ['logs', 'weflow', 'attachments']) fs.mkdirSync(path.join(state, dir), { recursive: true });
+  if (config.runtime.sender === 'wechat-hook') {
+    const hookDir = path.join(state, 'hook');
+    fs.mkdirSync(hookDir, { recursive: true });
+    const hookToken = path.join(hookDir, 'native-token.txt');
+    if (!fs.existsSync(hookToken)) fs.writeFileSync(hookToken, crypto.randomBytes(32).toString('hex'), { flag: 'wx', mode: 0o600 });
+    if (!/^[a-f0-9]{64}$/.test(fs.readFileSync(hookToken, 'utf8').trim())) throw new Error('Invalid native Hook token');
+  }
+  const tokenFile = path.join(state, 'social-dsh-token.txt');
+  if (!fs.existsSync(tokenFile)) fs.writeFileSync(tokenFile, crypto.randomBytes(32).toString('hex'), { flag: 'wx', mode: 0o600 });
+  const roleTexts=new Map();
+  for (const name of new Set([config.persona.default, ...Object.values(config.persona.chats ?? {})])) {
+    const file=path.join(root, 'roles', `${name}.md`);
+    if (!fs.existsSync(file)) throw new Error(`Persona file missing: ${name}.md`);
+    const raw=fs.readFileSync(file,'utf8'),rawError=personaError(name,raw);
+    if(rawError)throw new Error(`人格“${name}”：${rawError}`);
+    const selected=selectRoleText(raw,'v2'),selectedError=personaError(name,selected);
+    if(selectedError)throw new Error(`人格“${name}”在当前模式下无有效内容，请检查人格卡的模式标记。${selectedError}`);
+    roleTexts.set(name,selected);
+  }
+  const ioFile = path.join(state, 'wechat-io-config.json');
+  const previousIo = fs.existsSync(ioFile) ? read(ioFile) : {};
+  write(ioFile, { reader_base_url: `http://127.0.0.1:${config.ports.weflow}`,
+    reader_token: previousIo.reader_token || crypto.randomBytes(32).toString('hex'),
+    self_wxid: previousIo.self_wxid || '', onebot_ws_url: `ws://127.0.0.1:${config.ports.onebot}/ws` });
+  const roleText = name => roleTexts.get(name);
+  write(path.join(state, 'bridge-config.json'), {
+    project_root:root,
+    platforms: { wechat: { enabled: true, adapter: 'wechat-onebot', onebot: { server: { host: '127.0.0.1', port: config.ports.onebot, path: '/ws', timeoutMs: 45000 } }, ...config.wechat } },
+    dsh_plugin: { url: `http://127.0.0.1:${config.ports.dshPlugin}`, timeoutMs: 190000 },
+    sticker_policy_file: configFile,
+    search_policy_file: configFile,
+    search_state_file: path.join(state,'search/state.json'),
+    proactive_policy_file:configFile,
+    proactive_state_file:path.join(state,'proactive/state.json'),
+    context_policy_file:configFile,
+    message_buffer: { path: path.join(state, 'social-messages.json'), max_messages_per_chat: 300 },
+    // Original Bridge accepts inline persona text; it needs no source/path changes.
+    persona_name: config.persona.default,
+    role: roleText(config.persona.default), roles: Object.fromEntries(Object.entries(config.persona.chats ?? {}).map(([key, name]) => [key, { name, persona: roleText(name) }])), social: config.social,
+  });
+  const bufferFile = path.join(state, 'social-messages.json');
+  if (fs.existsSync(bufferFile)) {
+    const buffer = read(bufferFile);
+    let changed = false;
+    for (const [key, rows] of Object.entries(buffer.chats ?? {})) {
+      const match = /^wechat:(private|group):(\d+)$/.exec(key);
+      if (match && !config.wechat.whitelist[match[1] === 'group' ? 'groups' : 'private'].map(String).includes(match[2])) {
+        for (const row of rows) if (!row.processed) { row.processed = true; changed = true; }
+      }
+    }
+    if (changed) write(bufferFile, buffer);
+  }
+  // Bundle config is read again when DSH fully restarts. Secrets stay in state.
+  const patchFile = path.join(root, 'packages', 'dsh-social-bridge-plugin', 'cordis.patch.yml');
+  if (fs.existsSync(patchFile)) {
+    const existingPatch=fs.readFileSync(patchFile,'utf8');
+    const before=upsertAssistantPresetPatch(upsertToolCatalogPatch(existingPatch,root),root);
+    let after = before.replace(/^(        provider:).*/m, `$1 ${JSON.stringify(config.dsh.provider)}`).replace(/^(        model:).*/m, `$1 ${JSON.stringify(config.dsh.model)}`);
+    const moduleDir=path.dirname(patchFile);
+    after=updateDshPluginEntrypoints(after,root,moduleDir).patch;
+    after = /^        port:/m.test(after) ? after.replace(/^        port:.*/m, `        port: ${config.ports.dshPlugin}`) : after.replace(/^(        model:.*)$/m, `$1\n        port: ${config.ports.dshPlugin}`);
+    if(migratedMeme&&Object.keys(migratedMeme).length&&!/^        memeSearch:/m.test(after))after=after.replace(/^(        port:.*)$/m,'$1\n        memeSearch: '+JSON.stringify(migratedMeme));
+    if (existingPatch !== after) fs.writeFileSync(patchFile, after);
+  }
+  // Original WeFlow owns its encrypted configuration in every provider mode.
+  return config;
+}
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  if(process.argv.includes('--repair-dsh-plugin-link')){
+    const result=repairDshPluginPath(process.argv[process.argv.indexOf('--repair-dsh-plugin-link')+1]||projectRoot);
+    console.log(`DSH plugin paths repaired for ${result.pluginDirectory}; revision ${result.revision}.`);
+  } else { prepare(); console.log('WeChatAgent configuration prepared; secrets were not printed.'); }
+}

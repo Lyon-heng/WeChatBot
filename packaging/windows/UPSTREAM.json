@@ -1,0 +1,11 @@
+{
+  "repository": "https://github.com/sourcepro5/WeChatAgent",
+  "commit": "38c1060ce500a294d69a4a2f9e07ca1b63a08b06",
+  "license": "MIT (upstream notice retained in root LICENSE)",
+  "adaptedFiles": {
+    "apps/console-desktop/installer-storage.nsh": "packaging/windows/installer-storage.nsh",
+    "scripts/installer-directory-page.mjs": "scripts/installer-directory-page.mjs"
+  },
+  "referenceFiles": ["scripts/build-installer.mjs", "scripts/build-desktop.mjs", "apps/console-desktop/launcher.cs"],
+  "changes": ["WeChatBot branding and legacy installation migration", "No shell-based launcher, process killing or console uninstaller", "Owned-file-only removal and preserved user data", "Isolated installer verification and locked build tools"]
+}

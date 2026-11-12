@@ -1,0 +1,9 @@
+{
+  "name": "wechatbot",
+  "productName": "WeChatBot",
+  "version": "1.0.0",
+  "description": "WeChatBot 微信助手",
+  "main": "main.cjs",
+  "author": "WeChatBot contributors",
+  "license": "SEE THIRD-PARTY-NOTICES.txt"
+}

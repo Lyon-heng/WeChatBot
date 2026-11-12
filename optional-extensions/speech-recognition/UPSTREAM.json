@@ -1,0 +1,20 @@
+{
+  "repository": "https://github.com/sourcepro5/WeChatAgent",
+  "revision": "38c1060ce500a294d69a4a2f9e07ca1b63a08b06",
+  "upstreamVersion": "1.2.0",
+  "component": "optional-extensions/speech-recognition",
+  "license": "MIT",
+  "licenseFile": "LICENSE",
+  "modifications": [
+    "WeChatBot 1.3.0 packaging and attribution",
+    "Complete reader, OneBot, DSH and plugin-worker speech-input routing",
+    "Model discovery and isolated diagnostics integrated with current plugin settings UI",
+    "Explicit host routing capability and scoped audio permissions"
+  ],
+  "files": [
+    "index.mjs",
+    "lib/recognize.mjs",
+    "lib/diagnostics.mjs",
+    "assets/config-test.wav"
+  ]
+}

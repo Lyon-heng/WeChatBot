@@ -1,0 +1,4 @@
+export const DEFAULT_CATEGORIES=Object.freeze([{id:'memory',name:'聊天与记忆'},{id:'media',name:'媒体与表达'},{id:'assistant',name:'助手与自动化'},{id:'tools',name:'连接与工具'},{id:'other',name:'其他插件'}]);
+const groups={memory:['people-memory','memory-retrieval','memory-events','memory-evaluation','group-behavior','persona-studio','chat-notes','fish-notebook'],media:['voice-studio','cosyvoice-engine','local-voice-model','netease-music','bilibili-public','speech-recognition'],assistant:['admin-dsh']};
+export function pluginCategory(id,preferences){const selected=preferences.assignments?.[id];if(preferences.categories.some(c=>c.id===selected))return selected;return Object.entries(groups).find(([,ids])=>ids.includes(id))?.[0]??'tools';}
+export function fontSize(value){return Number.isInteger(value)&&value>=12&&value<=22?value:14;}

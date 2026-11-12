@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "name": "WeChatBot-voice-components.zip",
+  "release": "v1.0.0",
+  "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.0.0/WeChatBot-voice-components.zip",
+  "bytes": 397653353,
+  "sha256": "8e992b9f3b62a1350b78ad60e5545fa62104b4b6d00f5336eea3787c42f2413c",
+  "roots": {
+    "voice-python": [
+      "cpython-3.11-windows-x86_64-none/python.exe",
+      "cpython-3.11.15-windows-x86_64-none/python.exe"
+    ],
+    "voice-wsl": [
+      "PROVENANCE.json",
+      "ubuntu-noble-wsl-amd64-24.04lts.rootfs.tar.gz"
+    ]
+  },
+  "maxFiles": 20000,
+  "maxExpandedBytes": 1073741824
+}

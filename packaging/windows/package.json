@@ -1,0 +1,7 @@
+{
+  "name": "wechatbot-windows-packaging",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Isolated Windows installer build dependencies",
+  "dependencies": { "electron-builder": "26.15.3" }
+}

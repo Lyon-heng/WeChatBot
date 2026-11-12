@@ -1,0 +1,211 @@
+{
+  "id": "speech-recognition",
+  "name": "微信语音识别",
+  "version": "1.4.0",
+  "apiVersion": 2,
+  "host": "wechatagent",
+  "author": "sourcepro5 / WeChatBot",
+  "description": "识别好友和群聊收到的微信语音，再由当前聊天模型回复。支持远程识别接口或本机 SenseVoice 离线引擎；需自行配置，未配置、未授权的聊天不上传音频。",
+  "permissions": [
+    "audio_read"
+  ],
+  "requiresHostFeatures": [
+    "actions-v1",
+    "voice-input-v1",
+    "voice-input-route-v1"
+  ],
+  "requiresAccount": true,
+  "settings": {
+    "engine": "api",
+    "localAutostart": true,
+    "apiProtocol": "auto",
+    "endpoint": "",
+    "apiKey": "",
+    "authHeader": "Authorization",
+    "authPrefix": "Bearer ",
+    "headersJson": "{}",
+    "requestMode": "multipart",
+    "model": "",
+    "language": "",
+    "audioFormat": "wav",
+    "fileField": "file",
+    "modelField": "model",
+    "languageField": "language",
+    "extraFieldsJson": "{}",
+    "jsonTemplate": "{\"audio\":\"{{audio_base64}}\",\"model\":\"{{model}}\"}",
+    "responseMode": "json",
+    "responsePath": "text",
+    "timeoutMs": 20000,
+    "maxDurationSeconds": 60,
+    "maxTranscriptChars": 4000,
+    "cacheResults": true,
+    "modelsEndpoint": "",
+    "modelsResponsePath": "data",
+    "autoReadModels": true
+  },
+  "configSchema": {
+    "engine": {
+      "type": "string",
+      "title": "识别引擎",
+      "description": "api=远程识别接口；local=本机 SenseVoice 离线引擎（不出网，需先在下方面板下载组件并启动）。",
+      "enum": [
+        "api",
+        "local"
+      ]
+    },
+    "localAutostart": {
+      "type": "boolean",
+      "title": "随服务自动启动本地引擎",
+      "description": "选择本地引擎时，应用启动即拉起识别进程；关闭后需要手动启动。"
+    },
+    "apiProtocol": {
+      "type": "string",
+      "title": "API 协议",
+      "description": "按协议处理服务地址、鉴权和请求；自定义请求保留高级模板。",
+      "enum": [
+        "auto",
+        "openai-transcriptions",
+        "openai-chat",
+        "chat-audio-data-url",
+        "anthropic-messages",
+        "custom"
+      ]
+    },
+    "endpoint": {
+      "type": "string",
+      "title": "API 服务地址",
+      "description": "标准协议可填写基础地址（含所需版本路径）或完整识别地址，保留网关路径前缀；自定义请求填写完整 POST 地址。",
+      "maxLength": 2048
+    },
+    "apiKey": {
+      "type": "string",
+      "title": "API Key",
+      "secret": true,
+      "maxLength": 4096
+    },
+    "authHeader": {
+      "type": "string",
+      "title": "密钥请求头名称",
+      "maxLength": 100
+    },
+    "authPrefix": {
+      "type": "string",
+      "title": "密钥前缀（保留末尾空格）",
+      "maxLength": 100
+    },
+    "headersJson": {
+      "type": "string",
+      "title": "额外请求头（JSON）",
+      "description": "可填写自定义鉴权头；界面隐藏已保存值。",
+      "secret": true,
+      "maxLength": 16000
+    },
+    "requestMode": {
+      "type": "string",
+      "title": "请求格式",
+      "enum": [
+        "multipart",
+        "json"
+      ]
+    },
+    "model": {
+      "type": "string",
+      "title": "识别模型 ID",
+      "description": "可从 API 返回的模型列表选择；此处不能填写网址。",
+      "maxLength": 200
+    },
+    "language": {
+      "type": "string",
+      "title": "语言参数（可留空）",
+      "maxLength": 40
+    },
+    "audioFormat": {
+      "type": "string",
+      "title": "上传音频格式",
+      "description": "新版宿主内置 SILK 转 WAV 组件，无需安装 Python 依赖或识别模型；silk 则直接上传原始音频。",
+      "enum": [
+        "wav",
+        "silk"
+      ]
+    },
+    "fileField": {
+      "type": "string",
+      "title": "multipart 音频字段名",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "modelField": {
+      "type": "string",
+      "title": "multipart 模型字段名",
+      "maxLength": 100
+    },
+    "languageField": {
+      "type": "string",
+      "title": "multipart 语言字段名",
+      "maxLength": 100
+    },
+    "extraFieldsJson": {
+      "type": "string",
+      "title": "multipart 额外字段（JSON 对象）",
+      "maxLength": 16000
+    },
+    "jsonTemplate": {
+      "type": "string",
+      "title": "JSON 请求模板",
+      "description": "支持 {{audio_base64}}、{{audio_data_url}}、{{model}}、{{language}}、{{filename}}、{{mime_type}}、{{sample_rate}}、{{audio_bytes}}。",
+      "maxLength": 32000
+    },
+    "responseMode": {
+      "type": "string",
+      "title": "响应格式",
+      "enum": [
+        "json",
+        "text"
+      ]
+    },
+    "responsePath": {
+      "type": "string",
+      "title": "JSON 转写结果路径",
+      "description": "例如 text、data.text、results.0.text；留空表示根值。",
+      "maxLength": 300
+    },
+    "timeoutMs": {
+      "type": "integer",
+      "title": "API 超时（毫秒）",
+      "minimum": 1000,
+      "maximum": 25000
+    },
+    "maxDurationSeconds": {
+      "type": "integer",
+      "title": "最长语音（秒）",
+      "minimum": 1,
+      "maximum": 60
+    },
+    "maxTranscriptChars": {
+      "type": "integer",
+      "title": "转写文本长度上限",
+      "minimum": 100,
+      "maximum": 4000
+    },
+    "cacheResults": {
+      "type": "boolean",
+      "title": "缓存本进程内已识别的消息，避免重复上传"
+    },
+    "modelsEndpoint": {
+      "type": "string",
+      "title": "模型列表 API 地址（可留空）",
+      "description": "留空时在识别接口同一服务下尝试常见 models 路径；特殊服务可填写完整 GET 地址。",
+      "maxLength": 2048
+    },
+    "modelsResponsePath": {
+      "type": "string",
+      "title": "模型列表 JSON 路径",
+      "description": "通常为 data；也支持 models 或 data.models。",
+      "maxLength": 300
+    },
+    "autoReadModels": {
+      "type": "boolean",
+      "title": "配置页自动读取模型列表（不自动测试语音）"
+    }
+  }
+}

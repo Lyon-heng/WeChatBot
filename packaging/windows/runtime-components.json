@@ -1,0 +1,11 @@
+{
+  "readerKey": {
+    "path": "components/weflow-cli/resources/key/win32/x64/wx_key.dll",
+    "bytes": 195072,
+    "sha256": "9a2f2c6a09a3219afa4748a5e7e513d99c607173c3112c5afcc888996b98248c",
+    "machine": 34404,
+    "exports": ["InitializeHook", "PollKeyData", "CleanupHook", "GetStatusMessage", "GetLastErrorMsg"],
+    "source": "Existing WeChatAgent-0.4.3 distribution component; binary unchanged",
+    "securityScope": "Integrity and compatibility pin only; not a malware audit or a guarantee against data exfiltration"
+  }
+}

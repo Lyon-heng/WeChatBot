@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "client": "Weixin.exe 4.1.10.27",
+  "coreSha256": "f487e4f56930456a25fb0d7b058c77e2dcd364e268d49bdfff4dc0e3be26ba36",
+  "imageBase": "0x180000000",
+  "sizeOfImage": "0xaf0e000",
+  "status": "static-mapped",
+  "note": "全部来自对 state/hook/wechat-4.1.10.27/4.1.10.27/Weixin.dll 的离线静态分析；未注入、未改内存。",
+  "snsPost": {
+    "cmdId": 209,
+    "endpoint": "/cgi-bin/micromsg-bin/mmsnspost",
+    "endpointRva": "0x8b5da6c",
+    "endpointLen": 31,
+    "sender": "0x4eb3910",
+    "postApi": "0x4eb34d0",
+    "posterVfn": "0x4eb3440",
+    "createOperation": "0x4eb33c0",
+    "taskCtor": "0x4eb3c50",
+    "taskVtable": "0x8b5d768",
+    "taskSize": "0x2b8",
+    "requestOffset": "0xf0",
+    "requestCtor": "0x4da2bb0",
+    "responseOffset": "0x290",
+    "responseCtor": "0x4da2cd0",
+    "allocator": "0x680d0fc",
+    "serializer": "0x4dbf670",
+    "dispatch": "manager.vtable[5] (+0x28)",
+    "infoLayout": {
+      "base": "rbp-0x50",
+      "+0x10": "cmdId (uint32) = 209",
+      "+0x18": "endpoint buffer pointer (32 bytes, len 31)",
+      "+0x28": "endpoint len = 31",
+      "+0x30": "capacity = 31",
+      "+0x38": "flag = 1"
+    },
+    "taskVtableEntries": {
+      "0": "0x4eb3f80 destructor",
+      "1": "0x4eb3e50 deleting destructor",
+      "2": "0x4eb3f40",
+      "3": "0x103f30 lea rax,[rcx+0xf0];ret  (get request)",
+      "4": "0x3993a90 lea rax,[rcx+0x290];ret (get response)"
+    }
+  },
+  "snsDetail": {
+    "cmdId": 210,
+    "endpoint": "/cgi-bin/micromsg-bin/mmsnsobjectdetail",
+    "endpointRva": "0x87c07ac",
+    "sender": "0x2d6c2a0",
+    "cmdIdSite": "0x2d6c2e0"
+  },
+  "openQuestions": [
+    "manager 实例：sender 的 arg1 = *(operation+8)，operation 由 0x4eb33c0 创建，其 +8 为 shared_ptr<manager>；静态未定位到该单例的全局入口。",
+    "请求字节：task+0xf0 是 SnsPostRequest 消息对象，需定位其 ParseFromArray 虚拟槽位，才能直接灌入自建 protobuf，绕过 TimelineObject。"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "endpoint": "",
+  "publishableKey": "",
+  "model": "auto",
+  "systemPrompt": "你是一个友好的微信聊天助手，回复口语化、简洁、自然。",
+  "temperature": 0.8,
+  "timeoutMs": 120000
+}

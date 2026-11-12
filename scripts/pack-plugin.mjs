@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import {inspectPackage,packageFiles} from '../packages/plugin-api/catalog.mjs';
+import {packZip,unpackZip} from '../packages/plugin-api/zip.mjs';
+const [source,output]=process.argv.slice(2);
+if(!source||!output)throw Error('用法：node scripts/pack-plugin.mjs <插件目录> <输出.zip>');
+const folder=path.resolve(source),target=path.resolve(output);
+if(target.startsWith(folder+path.sep)||!target.toLowerCase().endsWith('.zip'))throw Error('ZIP 请输出到插件目录之外。');
+const item=inspectPackage(folder),zip=packZip(packageFiles(folder));unpackZip(zip);
+fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,zip);
+console.log(JSON.stringify({id:item.id,version:item.version,zip:target,bytes:zip.length}));

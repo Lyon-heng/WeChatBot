@@ -1,0 +1,12 @@
+{
+  "name": "silk-wasm",
+  "version": "3.7.1",
+  "license": "MIT",
+  "upstream": "https://github.com/idranme/silk-wasm",
+  "files": {
+    "package.json": "55f69255696623a29fee616525eab2b9f7aab9f21adf9b667155b68b653410d5",
+    "LICENSE": "3b1585c0e6d9d501e86383948fc0d1734bcb86517a13111d97749c65ad2bfb74",
+    "lib/index.mjs": "1a95755169e70de059b47a7e7d81a2c3e4f0f0d2ac8d26a8d1d90eaeaac4f937",
+    "lib/silk.wasm": "88152af59af535b8056ac806710824b2259a361027451b494f175f48fb39c807"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "id": "persona-studio",
+  "name": "AI 人格工作室",
+  "version": "1.1.0",
+  "apiVersion": 2,
+  "host": "wechatagent",
+  "author": "Lyon-heng",
+  "description": "通过对话设计、修改、预览人格，导出可在新版人格页面导入的 Markdown；不自动更换当前人格。",
+  "permissions": [
+    "storage",
+    "model_generate"
+  ],
+  "requiresHostFeatures": [
+    "actions-v1",
+    "model-utility-v1"
+  ],
+  "settings": {},
+  "configSchema": {}
+}

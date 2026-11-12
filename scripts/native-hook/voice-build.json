@@ -1,0 +1,14 @@
+{
+  "targetVersion": "4.1.10.27",
+  "sha256": "fe7b506d999c72c615d897d1d0727e9a4f2eba8e18a4b008dc20eebb2fe8c257",
+  "nativeVoice": "factory-619a190-silk-v1",
+  "voiceSource": "banzhangdeerfenzhiyi/wechat-agent-bundle@aeda6d3a08bd332ec39b82fb84af946fbc086a5a",
+  "sources": {
+    "scripts/native-hook/wechatagent_hook.cpp": "5df4b0d0a73cd69ea2e5f9d0e97e90634fe249a0047583f175b15e0316009baf",
+    "scripts/native-hook/voice_sender.cpp": "07835ed3245fe02628dc0dca06d23a1a4928173c87edba2d4c9c2e770382fb7f",
+    "scripts/native-hook/voice_sender.h": "470af0aef9ec35aa22351eb79a244cc2097340f2b836b1903b4215e6306d407e",
+    "scripts/native-hook/mention_sender.cpp": "a99ca2b3433c716a58963d8d904e896965866e0071f2f1de250342413911011d",
+    "scripts/native-hook/mention_sender.h": "8212da101c1488fd974a3696ff6032454a91ba681d7215c3b4d0b90f4d1cd540"
+  },
+  "nativeMentions": "text-atlist-4.1.10.27-v1"
+}

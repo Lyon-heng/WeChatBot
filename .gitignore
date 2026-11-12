@@ -1,0 +1,44 @@
+# Local accounts, credentials and runtime data
+state/
+data/
+node_modules/
+**/node_modules/
+**/__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+config/*.json
+!config/wechatagent.example.json
+**/distribution.json
+**/plugins.json
+*.log
+*.db
+*.sqlite*
+*.pem
+*.key
+*.pfx
+*.exe
+*.dll
+*.pdb
+*.obj
+release/
+dist/
+build/
+
+# Personal personas and installed plugin state
+plugins/
+!docs/plugins/
+!docs/plugins/**
+roles/*.md
+!roles/示例助手.md
+*.zip
+!optional-extensions/packages/*.zip
+!optional-extensions/packages/*.zip.sha256
+
+# Editor/build scratch files
+*.tmp
+deployment.json
+*.lib
+*.exp
+*.bak-*
