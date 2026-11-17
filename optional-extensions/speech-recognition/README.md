@@ -2,7 +2,7 @@
 
 版本：1.4.0 · 可选插件，按需安装
 
-[返回插件目录](https://github.com/Lyon-heng/WeChatBot/blob/main/docs/plugins/README.md) · [下载单独插件包](https://github.com/Lyon-heng/WeChatBot/releases/download/v0.5.5/speech-recognition-1.3.0.zip)
+[返回插件目录](https://github.com/Lyon-heng/WeChatBot/blob/main/docs/plugins/README.md) · [下载单独插件包](https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/speech-recognition-1.3.0.zip)
 
 ## 适合做什么
 

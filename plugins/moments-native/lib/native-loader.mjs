@@ -14,6 +14,34 @@ const TMP = process.env.TEMP || 'C:\\Windows\\Temp';
 const CONFIG = path.join(TMP, 'wb-moments-token.txt');
 const PORT_FILE = path.join(TMP, 'wb-moments-port.txt');
 
+/**
+ * 把会话里的令牌/授权哈希/期望账号重新写回组件读取的配置文件。
+ * 配置文件在 %TEMP%，Windows 磁盘清理、“存储感知”或清理脚本会把整个目录删掉；
+ * 组件每次请求都要读它，一旦缺失就只会回 503 no-config（表现为“组件明明在，却一律不可用”）。
+ * 会话文件里有完整信息，所以这属于可自愈的故障：发现缺了就照原样补写。
+ */
+export function writeConfig({token, approvedHash, wxid = ''}) {
+  if (!/^[a-f0-9]{64}$/.test(String(token ?? '')) || !/^[a-f0-9]{64}$/.test(String(approvedHash ?? ''))) return false;
+  try {
+    fs.mkdirSync(path.dirname(CONFIG), {recursive: true});
+    fs.writeFileSync(CONFIG, token + '\n' + approvedHash + '\n' + String(wxid ?? '') + '\n', 'utf8');
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** 配置文件当前内容是否仍与这份会话一致（不一致就说明被清掉或被别的会话覆盖了）。 */
+export function configMatches(session) {
+  try {
+    const text = fs.readFileSync(CONFIG, 'utf8');
+    const [token = '', approved = ''] = text.split(/\r?\n/);
+    return token === session.token && approved === session.approvedHash;
+  } catch {
+    return false;
+  }
+}
+
 function request(port, token, route, timeout = 4000) {
   return new Promise(resolve => {
     const req = http.request({hostname: '127.0.0.1', port, path: route, method: 'GET', timeout,
@@ -43,8 +71,7 @@ async function resolvePort(waitMs = 4000) {
   return PORT;
 }
 
-/** 加载组件并授权“这一包”。wxid 非空时组件会拒收账号不符的报文（防换号发错）。 */
-export async function loadComponent({root, packet, wxid = '', port = 0, timeout = 20000}) {
+/** 加载组件并授权“这一包”。wxid 非空时组件会拒收账号不符的报文（防换号发错）。 */export async function loadComponent({root, packet, wxid = '', port = 0, timeout = 20000}) {
   const dir = path.join(root, 'plugins/moments-native/native');
   const exe = path.join(dir, 'bin', 'wb_load.exe');
   const dll = path.join(dir, 'bin', 'wb_moments_r8.dll');
@@ -111,4 +138,23 @@ export async function loadComponent({root, packet, wxid = '', port = 0, timeout 
   fs.writeFileSync(sessionFile, JSON.stringify(session, null, 2), 'utf8');
   return {ok: true, session: {...session, sessionFile},
     detail: `已加载：进程 ${injected.pid}，端口 ${actualPort}，账号护栏 ${session.guard ? '已开启' : '未开启'}`};
+}
+
+/**
+ * 只看“这条会话现在还活着吗”：不注入、不改任何东西，最多 1.5 秒。
+ * 返回 {ok, health, reason}。reason 是给人看的中文原因，不含内部术语。
+ */
+export async function probeSession(session, {timeout = 1500} = {}) {
+  if (!session) return {ok: false, reason: '没有组件会话（还没加载过）'};
+  const health = await request(session.port, session.token, '/health', timeout);
+  if (!health) return {ok: false, reason: `组件没有响应（端口 ${session.port}）`};
+  if (health.error === 'no-config') {
+    return {ok: false, reason: '组件在，但它的授权配置文件被清掉了（组件读不到令牌）', repairable: true};
+  }
+  if (health.buildTag && health.buildTag !== BUILD_TAG) {
+    return {ok: false, reason: `接到的是旧组件（${health.buildTag}），不是这一版（${BUILD_TAG}）`};
+  }
+  if (health.verified !== true) return {ok: false, reason: '组件没通过自身的精确版本核验'};
+  if (health.pid !== session.pid) return {ok: false, reason: `微信进程变了（会话记的是 ${session.pid}，实际 ${health.pid}）`};
+  return {ok: true, health};
 }

@@ -10,7 +10,9 @@ import {Store} from './lib/state.mjs';
 import {composeText, shanghaiDate} from './lib/content.mjs';
 import {buildPostPacket, sha256, selfCheck, SUPPORTED_CORE} from './lib/protocol.mjs';
 import {loadSession, MomentsComponent} from './lib/native-client.mjs';
+import {configMatches, writeConfig} from './lib/native-loader.mjs';
 import {describeChannels, probeGateway, publishGateway, publishNative, publishNativeAuto, resolveChannel} from './lib/publish.mjs';
+import {checkBreaker} from './lib/breaker.mjs';
 import {publishViaUi, uiaStatus} from './lib/uia.mjs';
 import {diagnose, formatReport, resolveAccount, compatLine} from './lib/diagnose.mjs';
 
@@ -57,9 +59,28 @@ function sessionPath(settings) {
 
 function nativeState(settings) {
   const loaded = loadSession(sessionPath(settings));
-  return loaded.session
-    ? {available: true, session: loaded.session, detail: `会话在线（进程 ${loaded.session.pid}）`}
-    : {available: false, session: null, detail: loaded.reason || '未加载'};
+  if (!loaded.session) {
+    return {available: false, session: null, detail: loaded.reason || '未加载'};
+  }
+  const session = loaded.session;
+  if (!pidAlive(session.pid)) {
+    return {available: false, session, detail: `微信进程 ${session.pid} 已退出，重新加载组件后才能发`};
+  }
+  /* %TEMP% 被清理后组件会只回 503 no-config。会话里有令牌与授权哈希，直接照原样补写即可自愈。 */
+  if (!configMatches(session)) writeConfig(session);
+  return {available: true, session, detail: `会话在线（进程 ${session.pid}）`};
+}
+
+/** 进程还在不在：Windows 上 process.kill(pid, 0) 只探活，不发信号。 */
+function pidAlive(pid) {
+  const value = Number(pid);
+  if (!Number.isInteger(value) || value <= 0) return false;
+  try {
+    process.kill(value, 0);
+    return true;
+  } catch (error) {
+    return error.code === 'EPERM';   // 存在但没权限，也算活着
+  }
 }
 
 /** 最近一条草稿/待授权材料，工具超时时用它给个交代。 */
@@ -256,11 +277,13 @@ export async function status(ctx) {
     }
   }
   const latest = latestDraft(state);
+  const gate = checkBreaker(ROOT);
   const lines = [
     '【朋友圈发布 · 状态】',
     `模式：${String(settings.mode) === 'draft' ? '只写草稿' : '自动发布'} ｜ 时间：${settings.postTime} ｜ 每天上限：${dailyLimit(settings)} 条`,
     describeChannels(settings, {native: {available: native.available, detail: nativeDetail}, gateway}),
     `原生组件：${nativeDetail}`,
+    gate.ok ? '' : `现在不能发：${gate.reason}`,
     `账号：${account.wxid || '未找到'}（${account.source}）`,
     `今日已发：${state.date === today() ? state.count : 0} 条`,
     `最近一条：${latest ? `${displayTime(latest.at)} · ${latest.status} · ${String(latest.text).slice(0, 40)}` : '无'}`,

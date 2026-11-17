@@ -2,7 +2,7 @@
 
 版本：1.3.0 · 基础插件，随主包提供
 
-[返回插件目录](https://github.com/Lyon-heng/WeChatBot/blob/main/docs/plugins/README.md) · [下载单独插件包](https://github.com/Lyon-heng/WeChatBot/releases/download/v0.5.5/people-memory-1.3.0.zip)
+[返回插件目录](https://github.com/Lyon-heng/WeChatBot/blob/main/docs/plugins/README.md) · [下载单独插件包](https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/people-memory-1.3.0.zip)
 
 ## 适合做什么
 
