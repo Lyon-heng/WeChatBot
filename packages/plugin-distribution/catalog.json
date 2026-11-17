@@ -1,5 +1,5 @@
 {
-  "version": "1.10.0",
+  "version": "1.10.1",
   "entries": [
     {
       "id": "admin-dsh",
@@ -10,7 +10,7 @@
       "file": "admin-dsh-1.1.0.zip",
       "bytes": 3623,
       "sha256": "120fd87d27873f002b15b6711459f5f552f23aa2454e6374ac7cb730daa4fe0f",
-      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/admin-dsh-1.1.0.zip"
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.1/admin-dsh-1.1.0.zip"
     },
     {
       "id": "astrbot-bridge",
@@ -21,7 +21,7 @@
       "file": "astrbot-bridge-1.0.0.zip",
       "bytes": 7167,
       "sha256": "4aacc66104d6d9ae13a50699ccf44693daec3c1ef584f26a5a0005474fa97a5a",
-      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/astrbot-bridge-1.0.0.zip"
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.1/astrbot-bridge-1.0.0.zip"
     },
     {
       "id": "bilibili-public",
@@ -32,7 +32,7 @@
       "file": "bilibili-public-1.0.0.zip",
       "bytes": 3200,
       "sha256": "9e03cc7969f7db11df3a51153d0953635b7be80324013a3ac9f4941ffc57d257",
-      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/bilibili-public-1.0.0.zip"
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.1/bilibili-public-1.0.0.zip"
     },
     {
       "id": "cosyvoice-engine",
@@ -43,7 +43,7 @@
       "file": "cosyvoice-engine-1.0.1.zip",
       "bytes": 3488,
       "sha256": "207db93006507fbaa7bf538eaa62b6e0087bf9f2699fc4a95f204711ee881d04",
-      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/cosyvoice-engine-1.0.1.zip"
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.1/cosyvoice-engine-1.0.1.zip"
     },
     {
       "id": "fish-notebook",
@@ -54,7 +54,7 @@
       "file": "fish-notebook-1.0.0.zip",
       "bytes": 6037,
       "sha256": "9c96c2bde2d3bfde39748aaf9219df7018348ab9939edec9740d5e54b5134111",
-      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/fish-notebook-1.0.0.zip"
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.1/fish-notebook-1.0.0.zip"
     },
     {
       "id": "group-behavior",
@@ -65,7 +65,7 @@
       "file": "group-behavior-1.0.1.zip",
       "bytes": 5194,
       "sha256": "fd46eb28f34c14b5a6a9c5b4a641c2450fcd5bde892a60410ca01d57cb66a85b",
-      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/group-behavior-1.0.1.zip"
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.1/group-behavior-1.0.1.zip"
     },
     {
       "id": "local-voice-model",
@@ -76,7 +76,7 @@
       "file": "local-voice-model-1.0.0.zip",
       "bytes": 2435,
       "sha256": "6340e0916cf4ff50e57141eaecd69023f19c1297e2cb42e015b310c54ac64382",
-      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/local-voice-model-1.0.0.zip"
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.1/local-voice-model-1.0.0.zip"
     },
     {
       "id": "memory-evaluation",
@@ -87,7 +87,7 @@
       "file": "memory-evaluation-1.0.1.zip",
       "bytes": 3286,
       "sha256": "9cfd762482f859c748fe75264ead3776843dfa86cd597bbfb28be7c72874516c",
-      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/memory-evaluation-1.0.1.zip"
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.1/memory-evaluation-1.0.1.zip"
     },
     {
       "id": "memory-events",
@@ -98,7 +98,7 @@
       "file": "memory-events-1.2.1.zip",
       "bytes": 6216,
       "sha256": "85ce31c6f33e2720f60b78b2b1d8b5113488334ea5907a33ddbdaec28d1927dd",
-      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/memory-events-1.2.1.zip"
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.1/memory-events-1.2.1.zip"
     },
     {
       "id": "memory-retrieval",
@@ -109,7 +109,7 @@
       "file": "memory-retrieval-1.2.1.zip",
       "bytes": 6759,
       "sha256": "3d13e221652b4b0aa244820bdac469d55306c3f2998b845a45a9ae31d86279f8",
-      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/memory-retrieval-1.2.1.zip"
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.1/memory-retrieval-1.2.1.zip"
     },
     {
       "id": "moments-native",
@@ -120,7 +120,7 @@
       "file": "moments-native-2.2.2.zip",
       "bytes": 338208,
       "sha256": "2930fbd9a0a57743a9f3e9c59f8f3b8ada7e3b986a481cd1c18c8ba12ad1cf3e",
-      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/moments-native-2.2.2.zip"
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.1/moments-native-2.2.2.zip"
     },
     {
       "id": "moments-rpa",
@@ -131,7 +131,7 @@
       "file": "moments-rpa-1.0.0.zip",
       "bytes": 281481,
       "sha256": "93396f1fbbb018a6f3b7d1861101f558a42a36137cfe9c92fdbd40c9875eeaad",
-      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/moments-rpa-1.0.0.zip"
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.1/moments-rpa-1.0.0.zip"
     },
     {
       "id": "muse-video",
@@ -142,7 +142,7 @@
       "file": "muse-video-1.3.0.zip",
       "bytes": 40378,
       "sha256": "eb981e0050c3060d7b9c8859d9f44868bbb994aa71e79541f49eec107e32a0ab",
-      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/muse-video-1.3.0.zip"
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.1/muse-video-1.3.0.zip"
     },
     {
       "id": "netease-music",
@@ -153,7 +153,7 @@
       "file": "netease-music-1.1.0.zip",
       "bytes": 3283,
       "sha256": "6e8b2c12c7666ef184646495ecd53f4e09c778572b6cc3881994524b1146b3ed",
-      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/netease-music-1.1.0.zip"
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.1/netease-music-1.1.0.zip"
     },
     {
       "id": "people-memory",
@@ -164,7 +164,7 @@
       "file": "people-memory-1.3.0.zip",
       "bytes": 6581,
       "sha256": "cca5853ebc0b13096d212bf0ffeb553f008fed62b0d8c63ef51bf63015e3fa97",
-      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/people-memory-1.3.0.zip"
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.1/people-memory-1.3.0.zip"
     },
     {
       "id": "persona-studio",
@@ -175,7 +175,7 @@
       "file": "persona-studio-1.1.0.zip",
       "bytes": 5822,
       "sha256": "6786db6ed084b0bc7be04c6ff98c2a4514a6bd546949da0213053a48413847a2",
-      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/persona-studio-1.1.0.zip"
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.1/persona-studio-1.1.0.zip"
     },
     {
       "id": "speech-recognition",
@@ -186,7 +186,7 @@
       "file": "speech-recognition-1.4.0.zip",
       "bytes": 92800,
       "sha256": "f3e3fe7335394f5e39b0464f7f8c0de6ada6a43a8b32bc3be041657d24f522d2",
-      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/speech-recognition-1.4.0.zip"
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.1/speech-recognition-1.4.0.zip"
     },
     {
       "id": "voice-studio",
@@ -197,7 +197,7 @@
       "file": "voice-studio-1.4.1.zip",
       "bytes": 8186,
       "sha256": "25b850a2e6caae5e2c4d979fad22b60cc2f15b40bd4b36fb0136b20a94719cdb",
-      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/voice-studio-1.4.1.zip"
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.1/voice-studio-1.4.1.zip"
     },
     {
       "id": "workbuddy-memes",
@@ -208,7 +208,7 @@
       "file": "workbuddy-memes-1.0.0.zip",
       "bytes": 2901,
       "sha256": "4edc5e4fd1af5a96c0e4235ffe69b0f10c0239412731b946a6ba9f221a309c94",
-      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/workbuddy-memes-1.0.0.zip"
+      "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.1/workbuddy-memes-1.0.0.zip"
     }
   ],
   "schemas": {
@@ -425,9 +425,9 @@
     }
   },
   "all": {
-    "file": "WeChatBot-plugins-all-1.10.0.zip",
-    "bytes": 826769,
-    "sha256": "3aabdc267bacfe3a5d39ca1bea54dcc770812ee24f0eb81c8c2d849f673217ef",
-    "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/WeChatBot-plugins-all-1.10.0.zip"
+    "file": "WeChatBot-plugins-all-1.10.1.zip",
+    "bytes": 826661,
+    "sha256": "f844a3ed45a9577d28f450f546b5f291b7cf8c3af026b3898da7d03e607495c2",
+    "url": "https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.1/WeChatBot-plugins-all-1.10.1.zip"
   }
 }

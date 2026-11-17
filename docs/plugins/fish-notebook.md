@@ -2,7 +2,7 @@
 
 版本：1.0.0 · 可选插件，按需安装
 
-[返回插件目录](README.md) · [下载单独插件包](https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/fish-notebook-1.0.0.zip)
+[返回插件目录](README.md) · [下载单独插件包](https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.1/fish-notebook-1.0.0.zip)
 
 ## 适合做什么
 

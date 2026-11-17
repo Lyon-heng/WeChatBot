@@ -2,7 +2,7 @@
 
 版本：1.4.1 · 可选插件，按需安装
 
-[返回插件目录](https://github.com/Lyon-heng/WeChatBot/blob/main/docs/plugins/README.md) · [下载单独插件包](https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.0/voice-studio-1.4.1.zip)
+[返回插件目录](https://github.com/Lyon-heng/WeChatBot/blob/main/docs/plugins/README.md) · [下载单独插件包](https://github.com/Lyon-heng/WeChatBot/releases/download/v1.10.1/voice-studio-1.4.1.zip)
 
 ## 适合做什么
 

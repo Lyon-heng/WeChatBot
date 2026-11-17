@@ -2,12 +2,12 @@
 
 一个 Windows 微信 AI 助手。给好友或群聊设置人格，让它回复消息、记住聊天内容，也可以通过微信交办已授权的 DSH 任务。
 
-[下载安装](https://github.com/Lyon-heng/WeChatBot/releases/latest) · [下载包说明](docs/releases/1.10.0.md#下载哪个包) · [插件目录](docs/plugins/README.md) · [详细教程](docs/GETTING_STARTED.md)
+[下载安装](https://github.com/Lyon-heng/WeChatBot/releases/latest) · [下载包说明](docs/releases/1.10.1.md#下载哪个包) · [插件目录](docs/plugins/README.md) · [详细教程](docs/GETTING_STARTED.md)
 
 ## 快速开始
 
-1. **下载安装。** Windows 10/11 x64 首选 `WeChatBot-Setup-1.10.0-x64.exe`。便携版请完整解压，再打开根目录的 `WeChatBot.exe`。
-2. **连接微信。** 打开配置向导，按提示启动匹配的微信，登录并验证账号。1.10.0 的完整收发适配目标为微信 4.1.10.27 x64。
+1. **下载安装。** Windows 10/11 x64 首选 `WeChatBot-Setup-1.10.1-x64.exe`。便携版请完整解压，再打开根目录的 `WeChatBot.exe`。
+2. **连接微信。** 打开配置向导，按提示启动匹配的微信，登录并验证账号。1.10.1 的完整收发适配目标为微信 4.1.10.27 x64。
 3. **连接 DSH。** 单独安装或选择已有的 DeepSeek Harness，登录模型账号，按向导导入并启用插件。随后从托盘完整退出并重开 DSH，再选择模型。仓库与发行包都不内置任何应用凭据；若要使用内置 WorkBuddy 模型通道，请在设置中填写自己的应用地址（`https://…app.workbuddy.host`）与 `publishableKey`。
 4. **试一次回复。** 在「聊天」添加一个允许回复的好友，选好人格和发送模式，应用配置并启动服务。请好友发一句「你好」，确认微信收到回复。
 
